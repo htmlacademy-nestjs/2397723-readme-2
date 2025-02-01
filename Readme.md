@@ -1,7 +1,7 @@
 # Личный проект «Readme»
 
 * Студент: [Сергей Рагозин](https://up.htmlacademy.ru/nodejs-2-individual/2/user/2397723).
-* Наставник: `Неизвестно`.
+* Наставник: [Николай Думчев](https://htmlacademy.ru/profile/nikopol-fw).
 
 ---
 
