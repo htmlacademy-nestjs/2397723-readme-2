@@ -1,7 +1,7 @@
 {
   "name": "notifications",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/notifications/src",
+  "sourceRoot": "apps/notification/src",
   "projectType": "application",
   "tags": [],
   "targets": {
