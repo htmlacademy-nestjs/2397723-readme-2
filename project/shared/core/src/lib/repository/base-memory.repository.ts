@@ -3,7 +3,7 @@ import {Entity, EntityIdType} from '@project/core';
 import {Repository} from '@project/core';
 
 export abstract class BaseMemoryRepository<T extends Entity<EntityIdType>> implements Repository<T> {
-  private entities: Map<T['id'], T> = new Map();
+  protected entities: Map<T['id'], T> = new Map();
 
   public async findById(id: T['id']): Promise<T | null> {
     return this.entities.get(id) || null;
