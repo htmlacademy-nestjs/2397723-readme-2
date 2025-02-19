@@ -28,7 +28,7 @@ export class AuthenticationService {
 
     const existUser = await this.blogUserRepository.findByEmail(email);
 
-    if (!existUser) {
+    if (existUser) {
       throw new ConflictException(AUTH_USER_EXISTS);
     }
 
