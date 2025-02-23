@@ -6,6 +6,6 @@ export * from './lib/post/link-post.interface';
 export * from './lib/post/quote-post.interface';
 export * from './lib/post/text-post.interface';
 export * from './lib/post/post.interface';
-export * from './lib/post/post-status.enum';
+export * from './lib/post/post-type.enum';
 export * from './lib/post/reposted-post.interface';
 export * from './lib/comment/comment.interface';
