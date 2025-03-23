@@ -25,6 +25,10 @@ export class BlogPostEntity implements Post, Entity<string> {
   public link?: string;
   public description?: string;
 
+  constructor(post: Post) {
+    this.populate(post)
+  }
+
   public populate(data: Post) {
     this.id = data.id ?? undefined;
     this.authorId = data.authorId;

@@ -1,0 +1,29 @@
+# create new post
+POST http://localhost:3000/api/post/create HTTP/1.1
+Content-Type: application/json
+
+{
+  "type": "dfhgfhh",
+  "title": "Seriojodf",
+  "textPostText": ".........",
+  "creationDate": "10-10-2010",
+  "tags": "123 456"
+}
+
+###
+
+GET http://localhost:3000/api/post/ HTTP/1.1
+
+###
+
+GET http://localhost:3000/api/post/eecc028c-2cb2-4833-b744-1a682af3c2c2 HTTP/1.1
+Content-Type: application/json
+
+###
+
+GET http://localhost:3000/api/post/find-by-title HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Seriojo"
+}

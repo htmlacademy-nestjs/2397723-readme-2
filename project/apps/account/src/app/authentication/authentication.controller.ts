@@ -38,7 +38,7 @@ export class AuthenticationController {
   @ApiResponse({
     type: UserRdo,
     status: HttpStatus.OK,
-    description: 'User has been successfully find.',
+    description: 'User has been successfully logged.',
   })
   @Get(':id')
   public async show(@Param('id') id: string) {
