@@ -1,7 +1,7 @@
 {
   "name": "types",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "shared/app/types/src",
+  "sourceRoot": "shared/types/src",
   "projectType": "library",
   "tags": [],
   "// targets": "to see all targets run: nx show project types --web",

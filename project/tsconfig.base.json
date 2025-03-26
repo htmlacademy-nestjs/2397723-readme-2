@@ -17,7 +17,7 @@
     "paths": {
       "@project/core": ["shared/core/src/index.ts"],
       "@project/helpers": ["shared/helpers/src/index.ts"],
-      "@project/types": ["shared/app/types/src/index.ts"]
+      "@project/types": ["shared/types/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
