@@ -6,6 +6,8 @@ import {BlogPostRepository} from './blog-post.repository';
 import {UpdatePostDto} from './dto/update-post.dto';
 import {RepostDto} from './dto/repost-dto';
 import {FindByTitleDto} from './dto/find-by-title.dto';
+import {CreateCommentDto} from './dto/create-comment.dto';
+import {DeleteCommentDto} from './dto/delete-comment.dto';
 
 @Injectable()
 export class BlogPostService {
@@ -84,7 +86,7 @@ export class BlogPostService {
     return await this.blogPostRepository.getAll()
   }
 
-  public async getAllPostsWithSort() {
+  public async getAllPostsWithSort(sortType) {
 
   }
 
@@ -138,5 +140,23 @@ export class BlogPostService {
 
   public async getSubscriptions() {
 
+  }
+
+  /*Comments*/
+
+  public async createComment(postId: string, dto: CreateCommentDto) {
+    const comment = {
+      text: dto.text,
+      author: dto.author,
+    }
+    await this.blogPostRepository.createComment(postId, comment);
+  }
+
+  public async deleteComment(commentId: string, postId: string, dto: DeleteCommentDto) {
+    await this.blogPostRepository.deleteComment(commentId, postId, dto);
+  }
+
+  public async getComments(postId: string, page: number) {
+    return await this.blogPostRepository.getComments(postId, page);
   }
 }

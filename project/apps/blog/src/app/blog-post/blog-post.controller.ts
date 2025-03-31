@@ -1,5 +1,16 @@
 import {ApiResponse, ApiTags} from '@nestjs/swagger';
-import {Body, Controller, Delete, Get, HttpException, HttpStatus, Param, Patch, Post} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  Query
+} from '@nestjs/common';
 import {BlogPostService} from './blog-post.service';
 import {CreatePostDto} from './dto/create-post.dto';
 import {fillDto} from '@project/helpers';
@@ -7,6 +18,8 @@ import {CreatePostRdo} from './rdo/create-post.rdo';
 import {UpdatePostDto} from './dto/update-post.dto';
 import {RepostDto} from './dto/repost-dto';
 import {FindByTitleDto} from './dto/find-by-title.dto';
+import {CreateCommentDto} from './dto/create-comment.dto';
+import {DeleteCommentDto} from './dto/delete-comment.dto';
 
 @ApiTags('blog')
 @Controller('post')
@@ -77,5 +90,20 @@ export class BlogPostController {
   @Post('repost')
   public async repost(@Body() dto: RepostDto) {
     return await this.blogPostService.createRepost(dto)
+  }
+
+  @Get(':id/comments')
+  public async getComment(@Param('id') id: string, @Query('page') page: number) {
+    return this.blogPostService.getComments(id, page)
+  }
+
+  @Post(':id/create-comment')
+  public async createComment(@Param('id') id: string, @Body() dto: CreateCommentDto) {
+    await this.blogPostService.createComment(id, dto);
+  }
+
+  @Delete(':id/delete-comment/:commentId')
+  public async deleteComment(@Param('id') id: string, @Param('commentId') commentId: string, @Body() dto: DeleteCommentDto) {
+    await this.blogPostService.deleteComment(commentId, id, dto)
   }
 }
