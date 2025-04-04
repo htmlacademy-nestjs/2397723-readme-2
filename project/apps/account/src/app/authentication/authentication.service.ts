@@ -42,7 +42,6 @@ export class AuthenticationService {
   public async verifyUser(dto: LoginUserDto) {
     const {email, password} = dto;
     const existUser = await this.blogUserRepository.findByEmail(email);
-
     if (!existUser) {
       throw new NotFoundException(AUTH_USER_NOT_FOUND);
     }
@@ -50,11 +49,15 @@ export class AuthenticationService {
     if (!await existUser.comparePassword(password)) {
       throw new UnauthorizedException(AUTH_USER_PASSWORD_WRONG);
     }
-
     return existUser;
   }
 
   public async getUser(id: string) {
-    return this.blogUserRepository.findById(id);
+    const existUser = await this.blogUserRepository.findById(id);
+
+    if (!existUser) {
+      throw new NotFoundException(`User with id ${id} not found`);
+    }
+    return existUser;
   }
 }
