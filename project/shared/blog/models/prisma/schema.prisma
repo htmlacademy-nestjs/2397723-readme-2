@@ -9,3 +9,42 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Post {
+  id               String    @id @default(uuid())
+  authorId         String
+  tags             String?
+  isPublished      Boolean   @map("is_published")
+  creationDate     DateTime  @default(now()) @map("creation_date")
+  publicationDate  DateTime  @map("publication_date")
+  type             String
+  likesCount       Int       @map("likes_count")
+  comments         Comment[]
+  commentsCount    Int       @map("comments_count")
+  isReposted       Boolean   @map("is_reposted")
+  originalAuthorId String?    @map("original_author_id")
+  originalPostId   String?    @map("original_post_id")
+  title            String?
+  youtubeLink      String?    @map("youtube_link")
+  preview          String?
+  textPostText     String?    @map("text_post_text")
+  quotePostText    String?    @map("quote_post_text")
+  quoteAuthor      String?    @map("quote_author")
+  photo            String?
+  link             String?
+  description      String?
+
+  @@index([title])
+  @@map("posts")
+}
+
+model Comment {
+  id           String   @id @default(uuid())
+  text         String
+  author       String
+  creationDate DateTime @default(now()) @map("creation_date")
+  Post         Post    @relation(fields: [postId], references: [id])
+  postId       String
+
+  @@map("comments")
+}
