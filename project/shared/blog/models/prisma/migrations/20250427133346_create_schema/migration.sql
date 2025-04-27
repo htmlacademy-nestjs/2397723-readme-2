@@ -1,12 +1,3 @@
-/*
-  Warnings:
-
-  - You are about to drop the `Post` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropTable
-DROP TABLE "Post";
-
 -- CreateTable
 CREATE TABLE "posts" (
     "id" TEXT NOT NULL,
@@ -49,4 +40,4 @@ CREATE TABLE "comments" (
 CREATE INDEX "posts_title_idx" ON "posts"("title");
 
 -- AddForeignKey
-ALTER TABLE "comments" ADD CONSTRAINT "comments_postId_fkey" FOREIGN KEY ("postId") REFERENCES "posts"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "comments" ADD CONSTRAINT "comments_postId_fkey" FOREIGN KEY ("postId") REFERENCES "posts"("id") ON DELETE CASCADE ON UPDATE CASCADE;
