@@ -25,7 +25,7 @@ function getPosts() {
   return [
     {
       id: FIRST_POST_ID,
-      authorId: FIRST_USER_ID,
+      author_id: FIRST_USER_ID,
       tags: 'firstTag, secondTag',
       isPublished: true,
       publicationDate: new Date(),
@@ -50,7 +50,7 @@ function getPosts() {
     },
     {
       id: SECOND_POST_ID,
-      authorId: FIRST_USER_ID,
+      author_id: FIRST_USER_ID,
       tags: 'secondTag, thirdTag',
       isPublished: true,
       publicationDate: new Date(),
@@ -76,7 +76,7 @@ function getPosts() {
     },
     {
       id: THIRD_POST_ID,
-      authorId: SECOND_USER_ID,
+      author_id: SECOND_USER_ID,
       tags: 'secondTag, thirdTag',
       isPublished: true,
       publicationDate: new Date(),
@@ -100,7 +100,7 @@ function getPosts() {
     },
     {
       id: FOURTH_POST_ID,
-      authorId: THIRD_USER_ID,
+      author_id: THIRD_USER_ID,
       tags: 'fifthTag, secondTag',
       isPublished: true,
       publicationDate: new Date(),
@@ -124,7 +124,7 @@ function getPosts() {
     },
     {
       id: FIFTH_POST_ID,
-      authorId: SECOND_USER_ID,
+      author_id: SECOND_USER_ID,
       tags: 'firstTag, fourthTag, sixthTag',
       isPublished: true,
       publicationDate: new Date(),
@@ -152,7 +152,7 @@ async function seedDb(prismaClient: PrismaClient) {
     await prismaClient.post.create({
       data: {
         id: post.id,
-        authorId: post.authorId,
+        authorId: post.author_id,
         tags: post.tags,
         isPublished: post.isPublished,
         publicationDate: post.publicationDate,

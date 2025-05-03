@@ -1,16 +1,17 @@
 import {Entity} from '@project/core';
-import {Comment, Post, PostType,} from '@project/types';
+import {Post, PostType,} from '@project/types';
+import {BlogCommentEntity} from '../blog-comment/blog-comment.entity';
 
-export class BlogPostEntity implements Post, Entity<string> {
+export class BlogPostEntity implements Post, Entity<string, Post> {
   public id?: string;
   public authorId: string;
   public tags?: string;
   public isPublished: boolean;
   public creationDate: Date;
   public publicationDate: Date;
-  public type: PostType;
+  public type: string;
   public likesCount: number;
-  public comments?: Comment[];
+  public comments: BlogCommentEntity[];
   public commentsCount: number;
   public isReposted: boolean;
   public originalAuthorId?: string;
@@ -25,10 +26,6 @@ export class BlogPostEntity implements Post, Entity<string> {
   public link?: string;
   public description?: string;
 
-  constructor(post: Post) {
-    this.populate(post)
-  }
-
   public populate(data: Post) {
     this.id = data.id ?? undefined;
     this.authorId = data.authorId;
@@ -38,7 +35,7 @@ export class BlogPostEntity implements Post, Entity<string> {
     this.publicationDate = data.publicationDate ?? new Date();
     this.type = data.type;
     this.likesCount = data.likesCount || 0;
-    this.comments = data.comments || [];
+    this.comments = [];
     this.commentsCount = data.commentsCount || 0;
     this.isReposted = data.isReposted || false;
     this.originalAuthorId = data.originalAuthorId ?? undefined;
@@ -52,9 +49,11 @@ export class BlogPostEntity implements Post, Entity<string> {
     this.photo = data.photo ?? undefined;
     this.link = data.link ?? undefined;
     this.description = data.description ?? undefined;
+
+    return this
   }
 
-  public toObject() {
+  public toObject(): Post {
     return {
       id: this.id,
       authorId: this.authorId,
@@ -64,7 +63,7 @@ export class BlogPostEntity implements Post, Entity<string> {
       publicationDate: this.publicationDate,
       type: this.type,
       likesCount: this.likesCount,
-      comments: this.comments,
+      comments: [],
       commentsCount: this.commentsCount,
       isReposted: this.isReposted,
       originalAuthorId: this.originalAuthorId,
@@ -79,5 +78,9 @@ export class BlogPostEntity implements Post, Entity<string> {
       link: this.link,
       description: this.description,
     }
+  }
+
+  static fromObject(data: Post): BlogPostEntity {
+    return new BlogPostEntity().populate(data)
   }
 }

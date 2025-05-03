@@ -1,6 +1,8 @@
 export type EntityIdType = string;
 
-export interface Entity<T extends EntityIdType> {
+export type DefaultObjectType = Record<string, unknown>;
+
+export interface Entity<T extends EntityIdType, ObjectType = DefaultObjectType> {
   id?: T;
-  toObject(): Record<string, unknown>;
+  toObject(): ObjectType;
 }

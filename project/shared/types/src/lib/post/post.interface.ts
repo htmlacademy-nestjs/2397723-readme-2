@@ -9,9 +9,9 @@ export interface Post {
   isPublished: boolean;
   creationDate: Date;
   publicationDate: Date;
-  type: PostType;
+  type: string;
   likesCount: number;
-  comments?: Comment[];
+  comments: Comment[];
   commentsCount: number;
   isReposted: boolean;
   originalAuthorId?: string | null;
