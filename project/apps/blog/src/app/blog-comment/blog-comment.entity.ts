@@ -1,17 +1,13 @@
 import {Entity} from '@project/core';
 import {Comment} from '@project/types';
-import {Record} from 'prisma/prisma-client/runtime/library';
+import {CreateCommentDto} from './dto/create-comment.dto';
 
 export class BlogCommentEntity implements Comment, Entity<string, Comment> {
-  public id: string;
+  public id?: string;
   public text: string;
   public author: string;
   public creationDate: Date;
   public postId: string
-
-  constructor(comment: Comment) {
-    this.populate(comment)
-  }
 
   public populate(data: Comment) {
     this.id = data.id ?? undefined;
@@ -19,6 +15,8 @@ export class BlogCommentEntity implements Comment, Entity<string, Comment> {
     this.author = data.author;
     this.creationDate = data.creationDate ?? new Date();
     this.postId = data.postId
+
+    return this
   }
 
   public toObject(): Comment {
@@ -32,7 +30,16 @@ export class BlogCommentEntity implements Comment, Entity<string, Comment> {
   }
 
   static fromObject(data: Comment): BlogCommentEntity {
-    return new BlogCommentEntity(data)
+    return new BlogCommentEntity().populate(data)
+  }
+
+  static fromDto(dto: CreateCommentDto, postId: string): BlogCommentEntity {
+    return new BlogCommentEntity()
+      .populate({
+        ...dto,
+        postId,
+        creationDate: new Date(),
+      });
   }
 }
 

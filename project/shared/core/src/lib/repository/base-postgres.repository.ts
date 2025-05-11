@@ -1,6 +1,5 @@
-
-import { DefaultObjectType, Entity, EntityIdType } from '@project/core';
-import { Repository } from '@project/core';
+import {DefaultObjectType, Entity, EntityIdType} from '@project/core';
+import {Repository} from '@project/core';
 import {PrismaClientService} from '@project/models';
 
 export abstract class BasePostgresRepository<
@@ -11,10 +10,11 @@ export abstract class BasePostgresRepository<
   constructor(
     protected readonly client: PrismaClientService,
     private readonly createEntity: (document: DocumentType) => EntityType,
-  ) {}
+  ) {
+  }
 
   protected createEntityFromDocument(document: DocumentType): EntityType | null {
-    if (! document) {
+    if (!document) {
       return null;
     }
 

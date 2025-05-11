@@ -1,6 +1,7 @@
 import {Entity} from '@project/core';
-import {Post, PostType,} from '@project/types';
+import {Post} from '@project/types';
 import {BlogCommentEntity} from '../blog-comment/blog-comment.entity';
+import {CreatePostDto} from './dto/create-post.dto';
 
 export class BlogPostEntity implements Post, Entity<string, Post> {
   public id?: string;
@@ -30,7 +31,7 @@ export class BlogPostEntity implements Post, Entity<string, Post> {
     this.id = data.id ?? undefined;
     this.authorId = data.authorId;
     this.tags = data.tags;
-    this.isPublished = data.isPublished;
+    this.isPublished = data.isPublished ?? true;
     this.creationDate = data.creationDate ?? new Date();
     this.publicationDate = data.publicationDate ?? new Date();
     this.type = data.type;
@@ -82,5 +83,32 @@ export class BlogPostEntity implements Post, Entity<string, Post> {
 
   static fromObject(data: Post): BlogPostEntity {
     return new BlogPostEntity().populate(data)
+  }
+
+  static fromDto(dto: CreatePostDto): BlogPostEntity {
+    const entity = new BlogPostEntity();
+    entity.authorId = dto.authorId;
+    entity.tags = dto.tags;
+    entity.isPublished = true;
+    entity.creationDate = new Date();
+    entity.publicationDate = new Date();
+    entity.type = dto.type;
+    entity.likesCount = 0;
+    entity.comments = [];
+    entity.commentsCount = 0;
+    entity.isReposted = false;
+    entity.originalPostId = undefined;
+    entity.originalAuthorId = undefined;
+    entity.title = dto.title;
+    entity.youtubeLink = dto.youtubeLink;
+    entity.preview = dto.preview;
+    entity.textPostText = dto.textPostText;
+    entity.quotePostText = dto.quotePostText;
+    entity.quoteAuthor = dto.quoteAuthor;
+    entity.photo = dto.photo;
+    entity.link = dto.link;
+    entity.description = dto.description;
+
+    return entity;
   }
 }

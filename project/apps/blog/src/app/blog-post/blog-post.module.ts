@@ -8,6 +8,7 @@ import {PrismaClientModule} from '@project/models';
   imports: [PrismaClientModule],
   controllers: [BlogPostController],
   providers: [BlogPostService, BlogPostRepository],
+  exports: [BlogPostService],
 })
 
 export class BlogPostModule {}
