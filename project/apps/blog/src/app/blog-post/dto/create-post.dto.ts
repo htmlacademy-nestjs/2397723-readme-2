@@ -1,18 +1,45 @@
 import {PostType} from '@project/types';
+import {IsDate, IsNotEmpty, IsString} from 'class-validator';
 
 export class CreatePostDto {
+  @IsString()
+  @IsNotEmpty()
+  public authorId: string;
 
+  @IsNotEmpty()
   public type: PostType;
-  public title?: string;
-  public youtubeLink?: string;
-  public preview?: string;
-  public textPostText?: string;
-  public quotePostText?: string;
-  public quoteAuthor?: string;
-  public photo?: string;
-  public link?: string;
-  public description?: string;
-  public tags?: string;
-  public creationDate: Date;
 
+  @IsString()
+  public title?: string;
+
+  @IsString()
+  public youtubeLink?: string;
+
+  @IsString()
+  public preview?: string;
+
+  @IsString()
+  public textPostText?: string;
+
+  @IsString()
+  public quotePostText?: string;
+
+  @IsString()
+  public quoteAuthor?: string;
+
+  @IsString()
+  public photo?: string;
+
+  @IsString()
+  public link?: string;
+
+  @IsString()
+  public description?: string;
+
+  @IsString()
+  public tags?: string;
+
+  @IsString()
+  @IsDate()
+  public creationDate: Date;
 }

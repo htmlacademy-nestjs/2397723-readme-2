@@ -1,5 +1,5 @@
 import {PostType} from './post-type.enum';
-import {Comment} from '../comment/comment.interface';
+import {Comment} from './comment.interface';
 
 export interface Post {
   id?: string;
@@ -9,9 +9,9 @@ export interface Post {
   isPublished: boolean;
   creationDate: Date;
   publicationDate: Date;
-  type: PostType;
+  type: string;
   likesCount: number;
-  comments?: Comment[];
+  comments: Comment[];
   commentsCount: number;
   isReposted: boolean;
   originalAuthorId?: string | null;

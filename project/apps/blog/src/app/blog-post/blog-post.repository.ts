@@ -1,61 +1,135 @@
-import {randomUUID} from 'node:crypto';
 import {ConflictException, Injectable} from '@nestjs/common';
-import {BaseMemoryRepository} from '@project/core';
 import {BlogPostEntity} from './blog-post.entity';
-import {CreateCommentDto} from './dto/create-comment.dto';
-import dayjs from 'dayjs';
+import {BasePostgresRepository} from '@project/core';
+import {Post} from '@project/types';
+import {PrismaClientService} from '@project/models';
+import {RepostDto} from './dto/repost-dto';
 import {PAGE_SIZE} from './blog-post.const';
-import {DeleteCommentDto} from './dto/delete-comment.dto';
 
 @Injectable()
-export class BlogPostRepository extends BaseMemoryRepository<BlogPostEntity> {
-  public findByTitle(title: string): Promise<BlogPostEntity | null> {
-    const entities = Array.from(this.entities.values());
-    const post = entities.find((entity) => entity.title === title);
-    return Promise.resolve(post);
+export class BlogPostRepository extends BasePostgresRepository<BlogPostEntity, Post> {
+
+  constructor(
+    protected readonly client: PrismaClientService
+  ) {
+    super(client, BlogPostEntity.fromObject);
   }
 
-  public getAll(): Promise<BlogPostEntity[] | null> {
-    const entities = Array.from(this.entities.values());
-    return Promise.resolve(entities);
+  public async findAll(): Promise<BlogPostEntity[]> {
+    const posts = await this.client.post.findMany({
+      include: {
+        comments: true
+      },
+      take: PAGE_SIZE
+    });
+    return posts.map((post) => this.createEntityFromDocument(post))
   }
 
-  public async checkRepost(userId: string, postId: string, originalAuthorId: string): Promise<BlogPostEntity | null> {
-    const entities = Array.from(this.entities.values());
-    const usersEntities = entities.filter((entity) => entity.authorId = userId);
-    const exam = usersEntities.find((entity) => entity.originalPostId === postId && entity.originalAuthorId === originalAuthorId);
+  public async save(entity: BlogPostEntity): Promise<BlogPostEntity> {
+    const objEntity = entity.toObject();
+    const record = await this.client.post.create({
+      data: {
+        ...objEntity,
+        comments: {
+          connect: []
+        }
+      }
+    });
+
+    entity.id = record.id;
+    return entity
+  }
+
+  public async findById(id: string): Promise<BlogPostEntity> {
+    const document = await this.client.post.findFirst({
+      where: {
+        id,
+      },
+      include: {
+        comments: true,
+      }
+    });
+
+    return this.createEntityFromDocument(document);
+  }
+
+  public async deleteById(id: string): Promise<void> {
+    await this.client.post.delete({
+      where: {
+        id
+      }
+    });
+  }
+
+  public async update(id: string, entity: BlogPostEntity): Promise<BlogPostEntity> {
+    const objEntity = entity.toObject();
+    const updatedPost = await this.client.post.update({
+      where: {id},
+      data: {
+        tags: objEntity.tags,
+        type: objEntity.type,
+        likesCount: objEntity.likesCount,
+        title: objEntity.title,
+        youtubeLink: objEntity.youtubeLink,
+        preview: objEntity.preview,
+        textPostText: objEntity.textPostText,
+        quotePostText: objEntity.quotePostText,
+        quoteAuthor: objEntity.quoteAuthor,
+        photo: objEntity.photo,
+        link: objEntity.link,
+        description: objEntity.description,
+      },
+      include: {
+        comments: true,
+      }
+    });
+
+    return this.createEntityFromDocument(updatedPost);
+  }
+
+  public async findByTitle(title: string): Promise<BlogPostEntity | null> {
+    const document = await this.client.post.findFirst({
+      where: {
+        title,
+      },
+      include: {
+        comments: true,
+      }
+    });
+    return this.createEntityFromDocument(document);
+  }
+
+  public async createRepost(id: string, dto: RepostDto) {
+    const repostedPost = await this.client.post.findFirst({
+      where: {
+        id
+      },
+      include: {
+        comments: true,
+      }
+    });
+    const posts = await this.client.post.findMany({include: {comments: true}});
+    const usersEntities = posts.filter((post) => post.authorId = dto.userId);
+    const exam = usersEntities.find((post) => post.originalPostId === repostedPost.id);
     if (exam) {
       throw new ConflictException(`Repost is already exist`);
     }
-    const post = await this.findByTitle(postId);
-    return Promise.resolve(post);
-  }
 
-  public async createComment(postId: string, dto: CreateCommentDto) {
-    const comment = {
-      ...dto,
-      id: randomUUID(),
-      creationDate: dayjs().toDate()
-    };
-    this.entities.get(postId).comments.push(comment);
-  }
-
-  public async deleteComment(commentId: string, postId: string, dto: DeleteCommentDto) {
-    const comment = this.entities.get(postId).comments.find((comment) => comment.id === commentId);
-    if (comment.author === dto.authorId) {
-      const commentIndex = this.entities.get(postId).comments.findIndex((comment) => comment.id === commentId);
-      this.entities.get(postId).comments.splice(commentIndex, 1);
+    const document = this.createEntityFromDocument(repostedPost);
+    const repost = {
+      ...document,
+      id: undefined,
+      authorId: dto.userId,
+      originalAuthorId: repostedPost.authorId,
+      originalPostId: repostedPost.id,
+      commentsCount: 0,
+      likesCount: 0
     }
-  }
-
-  public async getComments(postId: string, page: number) {
-    console.log(`id: ${postId} page: ${page}`);
-    const comments = this.entities.get(postId).comments;
-    if (comments.length <= PAGE_SIZE) {
-      return Promise.resolve(comments);
-    }
-    const pageStart = (page - 1) * PAGE_SIZE;
-    const pageEnd = page * PAGE_SIZE - 1;
-    return comments.slice(pageStart, pageEnd);
+    return this.client.post.create({
+      data: {
+        ...repost,
+        comments: {}
+      }
+    })
   }
 }

@@ -1,5 +1,6 @@
+import {IsString} from 'class-validator';
+
 export class RepostDto {
+  @IsString()
   public userId: string;
-  public postId: string;
-  public originalAuthorId: string;
 }
