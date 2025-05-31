@@ -1,0 +1,17 @@
+# upload file
+POST http://localhost:3020/api/files/upload HTTP/1.1
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="uploader.http"
+
+< ./uploader.http
+
+--boundary--
+
+###
+
+# get file by ID
+GET http://localhost:3020/api/files/683ac21b7fba98bda7538264 HTTP/1.1
+
+###
