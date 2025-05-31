@@ -3,17 +3,16 @@ POST http://localhost:3000/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "sero@serrr.ser",
+  "email": "seeeeoooo@serroo.ser",
   "name": "Serioja",
   "avatar": ".........",
-  "registrationDate": "10-10-2010",
   "password": "1234567"
 }
 
 ###
 
 # Get user by ID
-GET http://localhost:3000/api/auth/67eec8aa9d7c0d66cf776d9c HTTP/1.1
+GET http://localhost:3000/api/auth/683a9948b0618784246c3a59 HTTP/1.1
 
 
 ###

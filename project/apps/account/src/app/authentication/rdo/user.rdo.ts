@@ -33,13 +33,6 @@ export class UserRdo {
 
   @Expose()
   @ApiProperty({
-    description: 'User registration date',
-    example: '2025-03-01',
-  })
-  public registrationDate: Date;
-
-  @Expose()
-  @ApiProperty({
     description: 'Count of users posts',
     example: '10',
   })
@@ -51,4 +44,10 @@ export class UserRdo {
     example: '8',
   })
   public subscriberCount: number;
+
+  @Expose()
+  public updatedAt: string;
+
+  @Expose()
+  public createdAt: string;
 }

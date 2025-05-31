@@ -8,10 +8,11 @@ export class BlogUserEntity implements AuthUser, Entity<string> {
   public email: string;
   public name: string;
   public avatar: string;
-  public registrationDate: Date;
   public postCount: number;
   public subscriberCount: number;
   public passwordHash: string;
+  public createdAt?: Date;
+  public updatedAt?: Date;
 
   constructor(user: AuthUser) {
     this.populate(user)
@@ -21,10 +22,11 @@ export class BlogUserEntity implements AuthUser, Entity<string> {
     this.email = data.email;
     this.name = data.name;
     this.avatar = data.avatar;
-    this.registrationDate = data.registrationDate;
     this.postCount = data.postCount;
     this.subscriberCount = data.subscriberCount;
     this.passwordHash = data.passwordHash;
+    this.createdAt = data.createdAt ?? undefined;
+    this.updatedAt = data.updatedAt ?? undefined;
   }
 
   public toObject() {
@@ -33,10 +35,11 @@ export class BlogUserEntity implements AuthUser, Entity<string> {
       email: this.email,
       name: this.name,
       avatar: this.avatar,
-      registrationDate: this.registrationDate,
       postCount: this.postCount,
       subscriberCount: this.subscriberCount,
       passwordHash: this.passwordHash,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
     }
   }
 

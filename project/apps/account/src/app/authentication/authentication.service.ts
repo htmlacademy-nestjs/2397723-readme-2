@@ -1,5 +1,4 @@
 import {ConflictException, Injectable, NotFoundException, UnauthorizedException} from '@nestjs/common';
-import dayjs from 'dayjs';
 import {BlogUserRepository} from '../blog-user/blog-user.repository';
 import {CreateUserDto} from './dto/create-user.dto';
 import {BlogUserEntity} from '../blog-user/blog-user.entity';
@@ -14,13 +13,12 @@ export class AuthenticationService {
   }
 
   public async register(dto: CreateUserDto) {
-    const {email, name, avatar, registrationDate, password} = dto;
+    const {email, name, avatar, password} = dto;
 
     const blogUser = {
       email,
       name,
       avatar,
-      registrationDate: dayjs(registrationDate).toDate(),
       postCount: 0,
       subscriberCount: 0,
       passwordHash: '',
@@ -34,6 +32,7 @@ export class AuthenticationService {
 
     const userEntity = await new BlogUserEntity(blogUser)
       .setPassword(password)
+
 
     return this.blogUserRepository
       .save(userEntity);

@@ -26,11 +26,6 @@ export class BlogUserModel extends Document implements AuthUser {
   @Prop({
     required: true,
   })
-  public registrationDate: Date;
-
-  @Prop({
-    required: true,
-  })
   public postCount: number;
 
   @Prop({
