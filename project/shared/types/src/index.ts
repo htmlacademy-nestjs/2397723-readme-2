@@ -6,3 +6,5 @@ export * from './lib/post/reposted-post.interface';
 export * from './lib/post/comment.interface';
 export * from './lib/file/file.interface'
 export * from './lib/file/stored-file.interface'
+export * from './lib/token/token.interface'
+export * from './lib/token/token-payload.interface'

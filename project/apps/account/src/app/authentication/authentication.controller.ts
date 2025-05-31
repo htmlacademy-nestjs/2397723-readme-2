@@ -1,4 +1,4 @@
-import {Body, Controller, Get, HttpStatus, Param, Post} from '@nestjs/common';
+import {Body, Controller, Get, HttpStatus, Param, Post, UseGuards} from '@nestjs/common';
 import {AuthenticationService} from './authentication.service';
 import {CreateUserDto} from './dto/create-user.dto';
 import {UserRdo} from './rdo/user.rdo';
@@ -6,6 +6,7 @@ import {fillDto} from '@project/helpers';
 import {LoginUserDto} from './dto/login-user.dto';
 import {LoggedUserRdo} from './rdo/logged-user.rdo';
 import {ApiResponse, ApiTags} from '@nestjs/swagger';
+import {JwtAuthGuard} from './guards/jwt-auth.guard';
 
 @ApiTags('authentication')
 @Controller('auth')
@@ -32,7 +33,8 @@ export class AuthenticationController {
   @Post('login')
   public async login(@Body() dto: LoginUserDto) {
     const verifiedUser = await this.authService.verifyUser(dto);
-    return fillDto(LoggedUserRdo, verifiedUser.toObject());
+    const userToken = await this.authService.createUserToken(verifiedUser);
+    return fillDto(LoggedUserRdo, { ...verifiedUser.toObject(), ...userToken });
   }
 
   @ApiResponse({
@@ -40,6 +42,7 @@ export class AuthenticationController {
     status: HttpStatus.OK,
     description: 'User has been successfully logged.',
   })
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
   public async show(@Param('id') id: string) {
     const existUser = await this.authService.getUser(id);
