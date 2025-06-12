@@ -2,8 +2,11 @@ export * from './lib/user/user.interface';
 export * from './lib/user/auth-user.interface';
 export * from './lib/post/post.interface';
 export * from './lib/post/post-type.enum';
-export * from './lib/post/reposted-post.interface';
 export * from './lib/post/comment.interface';
+export * from './lib/post/pagination.interface';
+export * from './lib/post/sort-direction.enum';
+export * from './lib/post/sort.enum';
+export * from './lib/post/tag.interface';
 export * from './lib/file/file.interface'
 export * from './lib/file/stored-file.interface'
 export * from './lib/token/token.interface'

@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
   output   = "../../../../node_modules/.prisma/client"
@@ -11,49 +8,47 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum PostType {
-  video
-  text
-  quote
-  photo
-  link
-}
-
 model Post {
-  id               String    @id @default(uuid())
-  authorId         String    @map("author_id")
-  tags             String?
-  isPublished      Boolean   @map("is_published")
-  creationDate     DateTime  @default(now()) @map("creation_date")
-  publicationDate  DateTime  @map("publication_date")
-  type             String
-  likesCount       Int       @map("likes_count")
-  comments         Comment[]
-  commentsCount    Int       @map("comments_count")
-  isReposted       Boolean   @map("is_reposted")
-  originalAuthorId String?   @map("original_author_id")
-  originalPostId   String?   @map("original_post_id")
-  title            String?
-  youtubeLink      String?   @map("youtube_link")
-  preview          String?
-  textPostText     String?   @map("text_post_text")
-  quotePostText    String?   @map("quote_post_text")
-  quoteAuthor      String?   @map("quote_author")
-  photo            String?
-  link             String?
-  description      String?
+  id             String    @id @default(uuid()) @map("post_id")
+  originalId     String?   @map("original_post_id")
+  postType       String    @map("post_type")
+  title          String?
+  link           String?
+  preview        String?
+  text           String?
+  author         String?
+  photo          String?
+  description    String?
+  userId         String    @map("user_id")
+  originalUserId String?   @map("original_user_id")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
+  isRepost       Boolean   @default(false) @map("is_repost")
+  isPublished    Boolean   @default(true) @map("is_published")
+  likes          String[]  @default([])
+  tags           Tag[]
+  comments       Comment[]
 
-  @@index([title])
+  @@index([userId])
   @@map("posts")
 }
 
 model Comment {
-  id           String   @id @default(uuid())
-  text         String
-  author       String
-  creationDate DateTime @default(now()) @map("creation_date")
-  post         Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  postId       String
+  id        String   @id @default(uuid()) @map("comment_id")
+  text      String
+  authorId  String   @map("user_id")
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  postId    String   @map("post_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("comments")
+}
+
+model Tag {
+  id    String @id @default(uuid()) @map("tag_id")
+  title String @unique()
+  posts Post[]
+
+  @@map("tags")
 }

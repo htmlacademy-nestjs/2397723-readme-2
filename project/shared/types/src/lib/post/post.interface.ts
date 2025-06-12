@@ -1,35 +1,24 @@
-import {PostType} from './post-type.enum';
 import {Comment} from './comment.interface';
+import {Tag} from './tag.interface';
 
 export interface Post {
   id?: string;
-  authorId: string;
-
-  tags?: string;
-  isPublished: boolean;
-  creationDate: Date;
-  publicationDate: Date;
-  type: string;
-  likesCount: number;
-  comments: Comment[];
-  commentsCount: number;
-  isReposted: boolean;
-  originalAuthorId?: string | null;
-  originalPostId?: string | null;
-
-  /*video&text*/
-  title?: string | null;
-  /*video*/
-  youtubeLink?: string | null;
-  /*text*/
-  preview?: string | null;
-  textPostText?: string | null;
-  /*quote*/
-  quotePostText?: string | null;
-  quoteAuthor?: string | null;
-  /*photo*/
-  photo?: string | null;
-  /*link*/
-  link?: string | null;
-  description?: string | null;
+  originalId?: string;
+  postType: string;
+  title?: string;
+  link?: string;
+  preview?: string;
+  text?: string;
+  author?: string;
+  photo?: string;
+  description?: string;
+  userId: string;
+  originalUserId: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  isPublished?: boolean;
+  isRepost?: boolean;
+  likes?: string[];
+  comments?: Comment[];
+  tags: Tag[];
 }
