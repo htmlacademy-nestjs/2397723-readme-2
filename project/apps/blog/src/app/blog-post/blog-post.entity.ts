@@ -2,54 +2,49 @@ import {Entity} from '@project/core';
 import {Post} from '@project/types';
 import {BlogCommentEntity} from '../blog-comment/blog-comment.entity';
 import {CreatePostDto} from './dto/create-post.dto';
+import {BlogTagEntity} from '../blog-tag/blog-tag.entity';
 
 export class BlogPostEntity implements Post, Entity<string, Post> {
   public id?: string;
-  public authorId: string;
-  public tags?: string;
-  public isPublished: boolean;
-  public creationDate: Date;
-  public publicationDate: Date;
-  public type: string;
-  public likesCount: number;
-  public comments: BlogCommentEntity[];
-  public commentsCount: number;
-  public isReposted: boolean;
-  public originalAuthorId?: string;
-  public originalPostId?: string;
+  public originalId?: string;
+  public postType: string;
   public title?: string;
-  public youtubeLink?: string;
-  public preview?: string;
-  public textPostText?: string;
-  public quotePostText?: string;
-  public quoteAuthor?: string;
-  public photo?: string;
   public link?: string;
+  public preview?: string;
+  public text?: string;
+  public author?: string;
+  public photo?: string;
   public description?: string;
+  public createdAt?: Date;
+  public updatedAt?: Date;
+  public userId: string;
+  public originalUserId: string;
+  public isPublished?: boolean;
+  public isRepost?: boolean;
+  public likes: string[] = [];
+  public comments: BlogCommentEntity[] = [];
+  public tags: BlogTagEntity[] = [];
 
   public populate(data: Post) {
     this.id = data.id ?? undefined;
-    this.authorId = data.authorId;
-    this.tags = data.tags;
-    this.isPublished = data.isPublished ?? true;
-    this.creationDate = data.creationDate ?? new Date();
-    this.publicationDate = data.publicationDate ?? new Date();
-    this.type = data.type;
-    this.likesCount = data.likesCount || 0;
-    this.comments = [];
-    this.commentsCount = data.commentsCount || 0;
-    this.isReposted = data.isReposted || false;
-    this.originalAuthorId = data.originalAuthorId ?? undefined;
-    this.originalPostId = data.originalPostId ?? undefined;
-    this.title = data.title ?? undefined;
-    this.youtubeLink = data.youtubeLink ?? undefined;
-    this.preview = data.preview ?? undefined;
-    this.textPostText = data.textPostText ?? undefined;
-    this.quotePostText = data.quotePostText ?? undefined;
-    this.quoteAuthor = data.quoteAuthor ?? undefined;
-    this.photo = data.photo ?? undefined;
-    this.link = data.link ?? undefined;
-    this.description = data.description ?? undefined;
+    this.originalId = data.originalId ?? undefined;
+    this.postType = data.postType;
+    this.title = data.title;
+    this.link = data.link;
+    this.preview = data.preview;
+    this.text = data.text;
+    this.author = data.author;
+    this.photo = data.photo;
+    this.description = data.description;
+    this.createdAt = data.createdAt ?? undefined;
+    this.updatedAt = data.updatedAt ?? undefined;
+    this.isPublished = data.isPublished ?? undefined;
+    this.isRepost = data.isRepost ?? undefined;
+    this.userId = data.userId;
+    this.originalUserId = data.originalUserId ?? data.userId;
+    this.likes = data.likes;
+    this.comments = data.comments.map(comment => BlogCommentEntity.fromObject(comment));
+    this.tags = data.tags.map(tag => BlogTagEntity.fromObject(tag));
 
     return this
   }
@@ -57,27 +52,24 @@ export class BlogPostEntity implements Post, Entity<string, Post> {
   public toObject(): Post {
     return {
       id: this.id,
-      authorId: this.authorId,
-      tags: this.tags,
-      isPublished: this.isPublished,
-      creationDate: this.creationDate,
-      publicationDate: this.publicationDate,
-      type: this.type,
-      likesCount: this.likesCount,
-      comments: [],
-      commentsCount: this.commentsCount,
-      isReposted: this.isReposted,
-      originalAuthorId: this.originalAuthorId,
-      originalPostId: this.originalPostId,
+      originalId: this.originalId,
+      postType: this.postType,
       title: this.title,
-      youtubeLink: this.youtubeLink,
-      preview: this.preview,
-      textPostText: this.textPostText,
-      quotePostText: this.quotePostText,
-      quoteAuthor: this.quoteAuthor,
-      photo: this.photo,
       link: this.link,
+      preview: this.preview,
+      text: this.text,
+      author: this.author,
+      photo: this.photo,
       description: this.description,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+      isPublished: this.isPublished,
+      isRepost: this.isRepost,
+      userId: this.userId,
+      originalUserId: this.originalUserId,
+      likes: this.likes,
+      comments: this.comments.map(commentEntity => commentEntity.toObject()),
+      tags: this.tags.map(tagEntity => tagEntity.toObject()),
     }
   }
 
@@ -85,29 +77,22 @@ export class BlogPostEntity implements Post, Entity<string, Post> {
     return new BlogPostEntity().populate(data)
   }
 
-  static fromDto(dto: CreatePostDto): BlogPostEntity {
+  static fromDto(dto: CreatePostDto, tags: BlogTagEntity[], comments: BlogCommentEntity[]): BlogPostEntity {
     const entity = new BlogPostEntity();
-    entity.authorId = dto.authorId;
-    entity.tags = dto.tags;
-    entity.isPublished = true;
-    entity.creationDate = new Date();
-    entity.publicationDate = new Date();
-    entity.type = dto.type;
-    entity.likesCount = 0;
-    entity.comments = [];
-    entity.commentsCount = 0;
-    entity.isReposted = false;
-    entity.originalPostId = undefined;
-    entity.originalAuthorId = undefined;
+
+    entity.tags = tags;
+    entity.comments = comments;
+    entity.postType = dto.postType;
     entity.title = dto.title;
-    entity.youtubeLink = dto.youtubeLink;
-    entity.preview = dto.preview;
-    entity.textPostText = dto.textPostText;
-    entity.quotePostText = dto.quotePostText;
-    entity.quoteAuthor = dto.quoteAuthor;
-    entity.photo = dto.photo;
     entity.link = dto.link;
+    entity.preview = dto.preview;
+    entity.text = dto.text;
+    entity.author = dto.author;
+    entity.photo = dto.photo;
     entity.description = dto.description;
+    entity.userId = dto.userId;
+    entity.originalUserId = dto.originalUserId;
+    entity.likes = dto.likes;
 
     return entity;
   }
