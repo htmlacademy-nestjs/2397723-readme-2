@@ -1,29 +1,40 @@
-import { Injectable } from '@nestjs/common';
-
-import { BlogPostService } from '../blog-post/blog-post.service';
-import { CreateCommentDto } from './dto/create-comment.dto';
-import { BlogCommentEntity } from './blog-comment.entity';
-import { BlogCommentRepository } from './blog-comment.repository';
-import {DeleteCommentDto} from './dto/delete-comment.dto';
+import {forwardRef, Inject, Injectable, NotFoundException, UnauthorizedException} from '@nestjs/common';
+import {Pagination} from '@project/types';
+import {BlogPostService} from '../blog-post/blog-post.service';
+import {CreateCommentDto} from './dto/create-comment.dto';
+import {BlogCommentEntity} from './blog-comment.entity';
+import {BlogCommentRepository} from './blog-comment.repository';
+import {BlogCommentQuery} from './query/blog-comment.query';
 
 @Injectable()
 export class BlogCommentService {
   constructor(
     private readonly blogCommentRepository: BlogCommentRepository,
+    @Inject(forwardRef(() => BlogPostService))
     private readonly blogPostService: BlogPostService,
-  ) {}
+  ) {
+  }
 
-  public async getComments(postId: string): Promise<BlogCommentEntity[]> {
-    return this.blogCommentRepository.findByPostId(postId);
+  public async getComments(postId: string, query: BlogCommentQuery): Promise<Pagination<BlogCommentEntity>> {
+    return this.blogCommentRepository.findByPostId(postId, query);
   }
 
   public async createComment(postId: string, dto: CreateCommentDto): Promise<BlogCommentEntity> {
-    const existsPost = await this.blogPostService.getPostDetails(postId);
+    const existsPost = await this.blogPostService.getPost(postId);
     const newComment = BlogCommentEntity.fromDto(dto, existsPost.id);
+
     return this.blogCommentRepository.save(newComment);
   }
 
-  public async deleteComment(commentId: string, dto: DeleteCommentDto): Promise<void> {
-    await this.blogCommentRepository.deleteComment(commentId, dto)
+  public async deleteComment(id: string, authorId: string) {
+    const existsComment = await this.blogCommentRepository.findById(id);
+    if (existsComment?.authorId !== authorId) {
+      throw new UnauthorizedException(`Comment owner is not user with userId: ${authorId}`);
+    }
+    try {
+      await this.blogCommentRepository.deleteById(id);
+    } catch {
+      throw new NotFoundException(`Comment with ID ${id} not found.`);
+    }
   }
 }
