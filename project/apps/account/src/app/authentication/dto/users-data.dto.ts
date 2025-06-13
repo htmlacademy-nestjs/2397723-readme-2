@@ -1,0 +1,13 @@
+import { IsArray, IsMongoId } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { API } from '../authentication.constant';
+
+export class UsersInfoDto {
+  @ApiProperty({
+    description: API.USER_ID,
+    example: [ API.USER_ID_EXAMPLE, API.USER_ID_EXAMPLE ],
+  })
+  @IsArray()
+  @IsMongoId({ each: true, })
+  public ids: string[];
+}
