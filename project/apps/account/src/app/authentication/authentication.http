@@ -3,25 +3,56 @@ POST http://localhost:3000/api/auth/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "seeeeoooo@serroo.ser",
-  "name": "Serioja",
-  "avatar": ".........",
-  "password": "1234567"
+  "email": "seriojo@email.ser",
+  "name": "Seriojo",
+  "password": "123456"
 }
 
 ###
-
 # Get user by ID
-GET http://localhost:3000/api/auth/683a9948b0618784246c3a59 HTTP/1.1
+GET http://localhost:3000/api/auth/684bd673a0349789ec70df9d HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODRiZDY3M2EwMzQ5Nzg5ZWM3MGRmOWQiLCJlbWFpbCI6Im5ld3VzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJVc2VyIE5hbWUiLCJpYXQiOjE3NDk4MDA4OTIsImV4cCI6MTc0OTg4NzI5Mn0.QR3AUI9c03n-9Y9OSuX0sdUspbcQWptXJInn51msBWo
 
 
 ###
-
 # Login user by email and password
 POST http://localhost:3000/api/auth/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "sero@serrr.ser",
-  "password": "1234567"
+  "email": "seriojische@email.ser",
+  "password": "123456"
 }
+
+###
+# Update user
+PATCH http://localhost:3000/api/auth/update HTTP/1.1
+Content-Type: application/json
+
+{
+  "avatar": "/path/to/avatar.png",
+  "userId": "684bd673a0349789ec70df9d"
+}
+
+###
+# Update password
+POST http://localhost:3000/api/auth/password HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODRiZDY3M2EwMzQ5Nzg5ZWM3MGRmOWQiLCJlbWFpbCI6Im5ld3VzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJVc2VyIE5hbWUiLCJpYXQiOjE3NDk4MDA4OTIsImV4cCI6MTc0OTg4NzI5Mn0.QR3AUI9c03n-9Y9OSuX0sdUspbcQWptXJInn51msBWo
+Content-Type: application/json
+
+{
+  "userId": "684bd673a0349789ec70df9d",
+  "password": "123456",
+  "newPassword": "654321"
+}
+
+###
+# Get a new JWT pair
+POST http://localhost:3000/api/auth/refresh HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODRiZDY3M2EwMzQ5Nzg5ZWM3MGRmOWQiLCJlbWFpbCI6Im5ld3VzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJVc2VyIE5hbWUiLCJ0b2tlbklkIjoiMGFkYzU0N2MtNjI4Ny00ZjRiLWI5YTYtNGViNzY4MzE1NWFkIiwiaWF0IjoxNzQ5ODAxMDU5LCJleHAiOjE3NDk4ODc0NTl9.kG9VbmwEakCRXAJNMXkUrF7QE2enWwf1SxeApbEiLDc
+
+###
+# Check user token
+POST http://localhost:3000/api/auth/check HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODRiZDY3M2EwMzQ5Nzg5ZWM3MGRmOWQiLCJlbWFpbCI6Im5ld3VzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJVc2VyIE5hbWUiLCJpYXQiOjE3NDk4MDEwNzYsImV4cCI6MTc0OTg4NzQ3Nn0.7suE5rfMEURayFIT_b0rKZh1oiCR2reQG4g0Wyr8Q8I
+

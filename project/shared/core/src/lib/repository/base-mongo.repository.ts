@@ -14,7 +14,7 @@ export abstract class BaseMongoRepository<
   ) {}
 
   protected createEntityFromDocument(document: DocumentType): EntityType | null {
-    if (! document) {
+    if (!document) {
       return null;
     }
 
@@ -26,6 +26,17 @@ export abstract class BaseMongoRepository<
     //TODO странное непринятие типа документа
     // @ts-ignore
     return this.createEntityFromDocument(document);
+  }
+
+  public async findManyById(ids: EntityType['id'][]): Promise<EntityType[] | []> {
+    const documents = await this.model.find({
+      _id: {
+        $in: ids,
+      }
+    })
+    //TODO Тоже непонятно
+    // @ts-ignore
+    return documents.map(item => this.createEntityFromDocument(item));
   }
 
   public async save(entity: EntityType): Promise<EntityType> {
