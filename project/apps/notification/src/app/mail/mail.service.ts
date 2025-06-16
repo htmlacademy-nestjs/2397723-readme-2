@@ -2,7 +2,7 @@ import {MailerService} from '@nestjs-modules/mailer';
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import {Subscriber} from '@project/types';
-import {NotificationConfig} from '@project/notification';
+import {NotificationConfig} from '@project/notify';
 import { EMAIL_SUBJECT } from './mail.constant';
 
 @Injectable()

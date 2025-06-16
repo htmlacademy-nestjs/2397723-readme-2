@@ -10,21 +10,39 @@
     "importHelpers": true,
     "target": "es2015",
     "module": "esnext",
-    "lib": ["es2020", "dom"],
+    "lib": [
+      "es2020",
+      "dom"
+    ],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@project/core": ["shared/core/src/index.ts"],
-      "@project/helpers": ["shared/helpers/src/index.ts"],
-      "@project/models": ["shared/blog/models/src/index.ts"],
-      "@project/notification": ["shared/config/notification/src/index.ts"],
-      "@project/shared/config/account": ["shared/config/account/src/index.ts"],
+      "@project/core": [
+        "shared/core/src/index.ts"
+      ],
+      "@project/helpers": [
+        "shared/helpers/src/index.ts"
+      ],
+      "@project/models": [
+        "shared/blog/models/src/index.ts"
+      ],
+      "@project/notify": [
+        "shared/config/notify/src/index.ts"
+      ],
+      "@project/shared/config/account": [
+        "shared/config/account/src/index.ts"
+      ],
       "@project/shared/config/file-manager": [
         "shared/config/file-manager/src/index.ts"
       ],
-      "@project/types": ["shared/types/src/index.ts"]
+      "@project/types": [
+        "shared/types/src/index.ts"
+      ]
     }
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

@@ -1,5 +1,5 @@
 export default {
-  displayName: 'notifications',
+  displayName: 'notification',
   preset: '../../jest.preset.js',
   testEnvironment: 'node',
   transform: {

@@ -1,10 +1,10 @@
 export default {
-  displayName: 'notification',
+  displayName: 'shared-config-notify',
   preset: '../../../jest.preset.js',
   testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../../coverage/shared/config/notification',
+  coverageDirectory: '../../../coverage/shared/config/notify',
 };

@@ -1,9 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { AmqpConnection } from '@golevelup/nestjs-rabbitmq';
 import { ConfigType } from '@nestjs/config';
-import { CreateSubscriberDto } from './dto/create-subscriber.dto';
 import {RabbitRoutingEnum} from '@project/types';
 import {rabbitConfig} from '@project/shared/config/account';
+import { CreateSubscriberDto } from './dto/create-subscriber.dto';
 
 @Injectable()
 export class NotificationService {
