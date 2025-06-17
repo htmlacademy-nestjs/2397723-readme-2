@@ -6,6 +6,22 @@ export type TimeAndUnit = {
   unit: DateTimeUnit;
 };
 
+type MongoConfigString = {
+  username: string;
+  password: string;
+  host: string;
+  port: string;
+  databaseName: string;
+  authDatabase: string;
+}
+
+type RabbitMQConfigString = {
+  user: string | undefined;
+  password: string | undefined;
+  host: string | undefined;
+  port: string | undefined;
+}
+
 export function parseTime(time: string): TimeAndUnit {
   const regex = /^(\d+)([shdmy])/;
   const match = regex.exec(time);
@@ -23,15 +39,6 @@ export function parseTime(time: string): TimeAndUnit {
   }
 
   return { value, unit };
-}
-
-type MongoConfigString = {
-  username: string;
-  password: string;
-  host: string;
-  port: string;
-  databaseName: string;
-  authDatabase: string;
 }
 
 export function fillDto<T, V>(
@@ -59,4 +66,8 @@ export function fillDto<T, V>(
 
 export function getMongoConnectionString({username, password, host, port, databaseName, authDatabase}: MongoConfigString): string {
   return `mongodb://${username}:${password}@${host}:${port}/${databaseName}?authSource=${authDatabase}`;
+}
+
+export function getRabbitMQConnectionString({ user, password, host, port }: RabbitMQConfigString): string {
+  return `amqp://${user}:${password}@${host}:${port}`;
 }

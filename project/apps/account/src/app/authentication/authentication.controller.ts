@@ -2,12 +2,12 @@ import {Body, Controller, Get, HttpCode, HttpStatus, Param, Patch, Post, Req, Us
 import {MongoIdValidationPipe} from '@project/core';
 import {fillDto} from '@project/helpers';
 import {RequestWithTokenPayload} from '@project/types';
+import {ApiResponse, ApiTags, ApiBearerAuth} from '@nestjs/swagger';
 import {AuthenticationService} from './authentication.service';
 import {CreateUserDto} from './dto/create-user.dto';
 import {UserRdo} from './rdo/user.rdo';
 import {LoginUserDto} from './dto/login-user.dto';
 import {LoggedUserRdo} from './rdo/logged-user.rdo';
-import {ApiResponse, ApiTags, ApiBearerAuth} from '@nestjs/swagger';
 import {JwtAuthGuard} from './guards/jwt-auth.guard';
 import {AUTH} from './authentication.constant';
 import {LocalAuthGuard} from './guards/local-auth.guard';
@@ -16,6 +16,7 @@ import {UpdateUserDto} from './dto/update-user.dto';
 import {ChangePasswordDto} from './dto/change-passport.dto';
 import {UsersInfoDto} from './dto/users-data.dto';
 import {JwtRefreshGuard} from './guards/jwt-refresh.guard';
+import {NotificationService} from '../notification/notification.service';
 
 interface RequestWithUser {
   user?: BlogUserEntity,
@@ -25,7 +26,8 @@ interface RequestWithUser {
 @Controller('auth')
 export class AuthenticationController {
   constructor(
-    private readonly authService: AuthenticationService
+    private readonly authService: AuthenticationService,
+    private readonly notificationService: NotificationService,
   ) {
   }
 
@@ -43,6 +45,9 @@ export class AuthenticationController {
       dto: CreateUserDto,
   ) {
     const newUser = await this.authService.register(dto);
+    const { email, name } = newUser;
+
+    await this.notificationService.registerSubscriber({ email, name });
 
     return fillDto(UserRdo, newUser.toObject());
   }

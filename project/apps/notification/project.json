@@ -1,5 +1,5 @@
 {
-  "name": "notifications",
+  "name": "notification",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "apps/notification/src",
   "projectType": "application",
@@ -22,15 +22,15 @@
       "defaultConfiguration": "development",
       "dependsOn": ["build"],
       "options": {
-        "buildTarget": "notifications:build",
+        "buildTarget": "notification:build",
         "runBuildTargetDependencies": false
       },
       "configurations": {
         "development": {
-          "buildTarget": "notifications:build:development"
+          "buildTarget": "notification:build:development"
         },
         "production": {
-          "buildTarget": "notifications:build:production"
+          "buildTarget": "notification:build:production"
         }
       }
     },
