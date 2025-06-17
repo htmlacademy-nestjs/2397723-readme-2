@@ -1,30 +1,29 @@
+import {compare, genSalt, hash} from 'bcrypt';
 import {Entity} from '@project/core';
 import {AuthUser} from '@project/types';
-import {compare, genSalt, hash} from 'bcrypt';
 import {SALT_ROUNDS} from './blog-user.constant';
 
 export class BlogUserEntity implements AuthUser, Entity<string> {
   public id?: string;
   public email: string;
   public name: string;
-  public avatar: string;
-  public registrationDate: Date;
-  public postCount: number;
-  public subscriberCount: number;
+  public avatar?: string;
   public passwordHash: string;
+  public createdAt?: Date;
+  public updatedAt?: Date;
 
   constructor(user: AuthUser) {
     this.populate(user)
   }
 
   public populate(data: AuthUser) {
+    this.id = data._id;
     this.email = data.email;
     this.name = data.name;
     this.avatar = data.avatar;
-    this.registrationDate = data.registrationDate;
-    this.postCount = data.postCount;
-    this.subscriberCount = data.subscriberCount;
     this.passwordHash = data.passwordHash;
+    this.createdAt = data.createdAt ?? undefined;
+    this.updatedAt = data.updatedAt ?? undefined;
   }
 
   public toObject() {
@@ -33,10 +32,9 @@ export class BlogUserEntity implements AuthUser, Entity<string> {
       email: this.email,
       name: this.name,
       avatar: this.avatar,
-      registrationDate: this.registrationDate,
-      postCount: this.postCount,
-      subscriberCount: this.subscriberCount,
       passwordHash: this.passwordHash,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
     }
   }
 

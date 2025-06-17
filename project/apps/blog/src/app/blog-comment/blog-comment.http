@@ -1,23 +1,21 @@
-###
-#get comments
-GET http://localhost:3000/api/post/6d308040-96a2-4162-bea6-2338e9976501/comments HTTP/1.1
+# Get all comments for post
+GET http://localhost:3000/api/posts/6d308040-96a2-4162-bea6-2338e9976502/comments?limit=1&page=1 HTTP/1.1
 
 ###
-#create comment
-POST http://localhost:3000/api/post/6d308040-96a2-4162-bea6-2338e9976501/comments HTTP/1.1
+# Create a new comment for post
+POST http://localhost:3000/api/posts/6d308040-96a2-4162-bea6-2338e9976501/comments HTTP/1.1
 Content-Type: application/json
 
 {
-  "text": "lalala",
-  "author": "658170cbb954e9f5b905cc03"
+  "text": "Test comment for blogPostService",
+  "authorId": "658170cbb954e9f5b905ccf4"
 }
 
 ###
-#delete comment
-
-DELETE http://localhost:3000/api/post/6d308040-96a2-4162-bea6-2338e9976501/comments/efd775e2-df55-4e0e-a308-58249f5ea205 HTTP/1.1
+# Delete comment
+DELETE http://localhost:3000/api/posts/a3fd134c-2db7-48fd-83b0-3fa95e32a9a8/comments HTTP/1.1
 Content-Type: application/json
 
 {
-  "author": "658170cbb954e9f5b905cc03"
+  "authorId": "658170cbb954e9f5b905ccf4"
 }

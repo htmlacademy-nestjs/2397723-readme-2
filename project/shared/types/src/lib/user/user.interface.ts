@@ -2,8 +2,7 @@ export interface User {
   id?: string;
   email: string;
   name: string;
-  avatar: string;
-  registrationDate: Date;
-  postCount: number;
-  subscriberCount: number;
+  avatar?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

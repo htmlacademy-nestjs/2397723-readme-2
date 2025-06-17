@@ -1,8 +1,13 @@
-import {IsMongoId, IsNotEmpty, IsString} from 'class-validator';
+import {IsNotEmpty, IsString} from 'class-validator';
+import {ApiProperty} from '@nestjs/swagger';
+import {COMMENT_VALIDATE} from '../blog-comment.constant';
 
 export class DeleteCommentDto {
-  @IsString()
-  @IsMongoId()
+  @ApiProperty({
+    description: COMMENT_VALIDATE.USER_ID,
+    example: COMMENT_VALIDATE.USER_ID_EXAMPLE,
+  })
   @IsNotEmpty()
-  public author: string;
+  @IsString()
+  public authorId: string;
 }

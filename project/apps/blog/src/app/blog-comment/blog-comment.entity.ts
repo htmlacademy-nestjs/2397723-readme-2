@@ -5,15 +5,17 @@ import {CreateCommentDto} from './dto/create-comment.dto';
 export class BlogCommentEntity implements Comment, Entity<string, Comment> {
   public id?: string;
   public text: string;
-  public author: string;
-  public creationDate: Date;
+  public authorId: string;
+  public createdAt: Date;
+  public updatedAt: Date;
   public postId: string
 
-  public populate(data: Comment) {
+  public populate(data: Comment): BlogCommentEntity {
     this.id = data.id ?? undefined;
     this.text = data.text;
-    this.author = data.author;
-    this.creationDate = data.creationDate ?? new Date();
+    this.authorId = data.authorId;
+    this.createdAt = data.createdAt;
+    this.updatedAt = data.updatedAt;
     this.postId = data.postId
 
     return this
@@ -23,8 +25,9 @@ export class BlogCommentEntity implements Comment, Entity<string, Comment> {
     return {
       id: this.id,
       text: this.text,
-      author: this.author,
-      creationDate: this.creationDate,
+      authorId: this.authorId,
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
       postId: this.postId,
     }
   }
@@ -38,7 +41,8 @@ export class BlogCommentEntity implements Comment, Entity<string, Comment> {
       .populate({
         ...dto,
         postId,
-        creationDate: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
       });
   }
 }

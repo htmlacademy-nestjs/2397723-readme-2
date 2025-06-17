@@ -1,86 +1,99 @@
-# create new post
-POST http://localhost:3000/api/post/create HTTP/1.1
+# Get all posts
+GET http://localhost:3000/api/posts/ HTTP/1.1
+
+###
+# Get posts by search in title
+GET http://localhost:3000/api/posts/search?substring=тест HTTP/1.1
+
+###
+# Get posts with filter
+GET http://localhost:3000/api/posts?tags[]=f5dfd57c-c41f-4c70-ab54-534069c9b937&limit=5&sortDirection=asc&
+  page=1 HTTP/1.1
+
+###
+# Get posts with filter userId
+GET http://localhost:3000/api/posts?sortDirection=desc&userId=658170cbb954e9f5b905cc01 HTTP/1.1
+
+###
+# Get posts with sort type by likes count
+GET http://localhost:3000/api/posts?sortType=comments&sortDirection=asc HTTP/1.1
+
+###
+# Get post by id
+GET http://localhost:3000/api/posts/6d308040-96a2-4162-bea6-2338e9976501 HTTP/1.1
+
+###
+# Create a new TEXT post
+POST http://localhost:3000/api/posts HTTP/1.1
 Content-Type: application/json
 
 {
-  "type": "text",
-  "authorId": "658170cbb954e9f5b905cc02",
-  "title": "Seriojodf",
-  "textPostText": ".........",
-  "creationDate": "10-10-2010",
-  "tags": "123 456"
+  "postType": "text",
+  "title": "Заголовок тестового",
+  "text": "Это цитата для проверки",
+  "userId": "6580462f5e238357ab17003a",
+  "tags": [
+    "f5dfd57c-c41f-4c70-ab54-534069c9b937"
+  ]
 }
 
 ###
-#update post
-PATCH http://localhost:3000/api/post/6661358d-bbe8-4f5b-9d5e-4ac5072cbdc4 HTTP/1.1
+# Create a new post
+POST http://localhost:3000/api/posts HTTP/1.1
 Content-Type: application/json
 
 {
-  "likesCount": 3
+  "postType": "quote",
+  "text": "Это цитата для проверки",
+  "author": "Какой-то автор",
+  "userId": "6580462f5e238357ab17003a",
+  "tags": [
+    "f5dfd57c-c41f-4c70-ab54-534069c9b937"
+  ]
 }
 
 ###
-#delete post
-DELETE http://localhost:3000/api/post/3c1b663a-be22-41c7-b5de-3c909a53eb11 HTTP/1.1
-
-
-###
-# get posts
-GET http://localhost:3000/api/post/ HTTP/1.1
-
-###
-#get post details
-GET http://localhost:3000/api/post/6d308040-96a2-4162-bea6-2338e9976501 HTTP/1.1
-Content-Type: application/json
-
-###
-# find post by title
-GET http://localhost:3000/api/post/find-by-title HTTP/1.1
+# Repost
+POST http://localhost:3000/api/posts/repost/6d308040-96a2-4162-bea6-2338e9976501 HTTP/1.1
 Content-Type: application/json
 
 {
-  "title": "Seriojodf"
+  "userId": "65ad1a9709d14f464142a4be"
 }
 
 ###
-#set like for post
-
-PATCH http://localhost:3000/api/post/6661358d-bbe8-4f5b-9d5e-4ac5072cbdc4/set-like HTTP/1.1
-
-###
-#remove like for post
-PATCH http://localhost:3000/api/post/6661358d-bbe8-4f5b-9d5e-4ac5072cbdc4/remove-like HTTP/1.1
-
-###
-#repost
-POST http://localhost:3000/api/post/dsdsdsd/repost
+# Delete the post by id
+DELETE http://localhost:3000/api/posts/fc9c3b23-2459-44d7-9a9b-6d79e03d94c2 HTTP/1.1
 Content-Type: application/json
 
 {
-  "userId": "658170cbb954e9f5b905cc02"
-}
-
-
-###
-# get comments for post
-GET http://localhost:3000/api/post/6d308040-96a2-4162-bea6-2338e9976501/comments?page=2 HTTP/1.1
-
-###
-# create new comment
-POST http://localhost:3000/api/post/eecc028c-2cb2-4833-b744-1a682af3c2c2/create-comment HTTP/1.1
-Content-Type: application/json
-
-{
-  "text": "New comment",
-  "author": "1a682af3c2c2-b744-4833-2cb2-eecc028c"
+  "userId": "6580462f5e238357ab17003a"
 }
 
 ###
-# delete comment
-DELETE http://localhost:3000/api/post/eecc028c-2cb2-4833-b744-1a682af3c2c2/delete-comment/1a682af3c2c2 HTTP/1.1
+# Update post by id
+PATCH http://localhost:3000/api/posts/6d308040-96a2-4162-bea6-2338e9976502 HTTP/1.1
 Content-Type: application/json
 
 {
-  "authorId": "1a682af3c2c2-b744-4833-2cb2-eecc028c"
+  "author": "Обновленный автор цитаты",
+  "userId": "658170cbb954e9f5b905cc01"
+}
+
+###
+# Update post status by id
+PATCH http://localhost:3000/api/posts/status/6d308040-96a2-4162-bea6-2338e9976501 HTTP/1.1
+Content-Type: application/json
+
+{
+  "userId": "658170cbb954e9f5b905cc01"
+}
+
+###
+# Toggle like
+PATCH http://localhost:3030/api/posts/like/a781c089-8465-413a-989a-1a9e84107516 HTTP/1.1
+Content-Type: application/json
+
+{
+  "likeId": "6580462f5e238357ab17003a"
 }

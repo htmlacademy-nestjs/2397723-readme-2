@@ -1,72 +1,124 @@
-import {Injectable} from '@nestjs/common';
+import {Injectable, NotFoundException, UnauthorizedException} from '@nestjs/common';
+import {Pagination} from '@project/types';
 import {CreatePostDto} from './dto/create-post.dto';
 import {BlogPostEntity} from './blog-post.entity';
 import {BlogPostRepository} from './blog-post.repository';
 import {UpdatePostDto} from './dto/update-post.dto';
-import {RepostDto} from './dto/repost-dto';
-import {FindByTitleDto} from './dto/find-by-title.dto';
+import {BlogTagService} from '../blog-tag/blog-tag.service';
+import {BlogCommentService} from '../blog-comment/blog-comment.service';
+import {BlogPostQuery} from './query/blog-post.query';
 
 @Injectable()
 export class BlogPostService {
   constructor(
     private readonly blogPostRepository: BlogPostRepository,
+    private readonly blogTagService: BlogTagService,
+    private readonly blogCommentService: BlogCommentService,
   ) {
   }
 
-  public async getAllPosts(): Promise<BlogPostEntity[]> {
-    return this.blogPostRepository.findAll()
+  public async getAllPosts(query?: BlogPostQuery): Promise<Pagination<BlogPostEntity>> {
+    console.log(query)
+    return this.blogPostRepository.find(query)
   }
 
   public async createPost(dto: CreatePostDto): Promise<BlogPostEntity> {
-    const newPost = BlogPostEntity.fromDto(dto);
+    const tags = await this.blogTagService.getTagsByIds(dto.tags);
+    const newPost = BlogPostEntity.fromDto(dto, tags, []);
     await this.blogPostRepository.save(newPost);
 
     return newPost;
   }
 
-  public async getPostDetails(id: string) {
-    return await this.blogPostRepository.findById(id);
+  public async searchPosts(str: string): Promise<BlogPostEntity[]> {
+    return this.blogPostRepository.search(str);
   }
 
-  public async updatePost(postId: string, dto: UpdatePostDto) {
-    const existsPost = await this.blogPostRepository.findById(postId);
+  public async getPost(id: string): Promise<BlogPostEntity> {
+    return this.blogPostRepository.findById(id);
+  }
+
+  public async updatePost(id: string, dto: UpdatePostDto, userId: string): Promise<BlogPostEntity> {
+    const existsPost = await this.blogPostRepository.findById(id);
+
+    if (existsPost?.userId !== userId) {
+      throw new UnauthorizedException(`Post owner is not user with userId: ${userId}`);
+    }
+
+    let isSameTags = true;
     let hasChanges = false;
 
     for (const [key, value] of Object.entries(dto)) {
-      if (value !== undefined && existsPost[key] !== value) {
+      if (value !== undefined && key !== 'tags' && existsPost[key] !== value) {
         existsPost[key] = value;
         hasChanges = true;
       }
+
+      if (key === 'tags' && value) {
+        const currentTagIds = existsPost.tags.map(tag => tag.id);
+        isSameTags = currentTagIds.length === value.length &&
+          currentTagIds.some(tagId => value.includes(tagId));
+
+        if (!isSameTags) {
+          existsPost.tags = await this.blogTagService.getTagsByIds(dto.tags);
+        }
+      }
     }
 
-    if (!hasChanges) {
+    if (isSameTags && !hasChanges) {
       return existsPost;
     }
 
-    return await this.blogPostRepository.update(postId, existsPost);
+    return this.blogPostRepository.update(id, existsPost);
   }
 
-  public async deletePost(id: string) {
-    return await this.blogPostRepository.deleteById(id)
-  }
-
-  public async findPostByTitle(dto: FindByTitleDto) {
-    return await this.blogPostRepository.findByTitle(dto.title)
-  }
-
-  public async setLike(id: string) {
+  public async updatePostStatus(id: string, userId: string): Promise<BlogPostEntity> {
     const existsPost = await this.blogPostRepository.findById(id);
-    existsPost.likesCount = existsPost.likesCount + 1;
-    return await this.blogPostRepository.update(id, existsPost);
+
+    if (!existsPost) {
+      throw new NotFoundException(`Post with id: ${id} is not found`);
+    }
+
+    if (existsPost?.userId !== userId) {
+      throw new UnauthorizedException(`Post owner is not user with userId: ${userId}`);
+    }
+
+    existsPost.isPublished = !existsPost.isPublished;
+
+    return this.blogPostRepository.update(id, existsPost);
   }
 
-  public async removeLike(id: string) {
+  public async deletePost(id: string, userId: string): Promise<void> {
     const existsPost = await this.blogPostRepository.findById(id);
-    existsPost.likesCount = existsPost.likesCount - 1;
-    return await this.blogPostRepository.update(id, existsPost);
+
+    if (existsPost?.userId !== userId) {
+      throw new UnauthorizedException(`Post owner is not user with userId: ${userId}`);
+    }
+
+    try {
+      await this.blogPostRepository.deleteById(id);
+    } catch {
+      throw new NotFoundException(`Post with ID ${id} not found.`);
+    }
   }
 
-  public async createRepost(id: string, dto: RepostDto) {
-    return await this.blogPostRepository.createRepost(id, dto);
+  public async toggleLike(id: string, likeId: string): Promise<BlogPostEntity> {
+    const existsPost = await this.blogPostRepository.findById(id);
+
+    if (!existsPost.likes) {
+      existsPost.likes = []
+    }
+
+    if (existsPost.likes.some(value => value === likeId)) {
+      existsPost.likes = existsPost.likes.filter(value => value !== likeId);
+    } else {
+      existsPost.likes.push(likeId);
+    }
+
+    return this.blogPostRepository.update(id, existsPost);
+  }
+
+  public async repostPost(id: string, userId: string): Promise<BlogPostEntity> {
+    return await this.blogPostRepository.repost(id, userId);
   }
 }

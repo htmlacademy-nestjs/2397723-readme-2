@@ -1,10 +1,9 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
 import {BasePostgresRepository} from '@project/core';
-import {BlogCommentEntity} from './blog-comment.entity';
-import {Comment} from '@project/types';
+import {Comment, Pagination} from '@project/types';
 import {PrismaClientService} from '@project/models';
-import {MAX_COMMENTS_COUNT} from './blog-comment.constant';
-import {DeleteCommentDto} from './dto/delete-comment.dto';
+import {BlogCommentEntity} from './blog-comment.entity';
+import {BlogCommentQuery} from './query/blog-comment.query';
 
 @Injectable()
 export class BlogCommentRepository extends BasePostgresRepository<BlogCommentEntity, Comment> {
@@ -18,7 +17,7 @@ export class BlogCommentRepository extends BasePostgresRepository<BlogCommentEnt
     const record = await this.client.comment.create({
       data: {
         text: entity.text,
-        author: entity.author,
+        authorId: entity.authorId,
         postId: entity.postId,
       },
     });
@@ -32,7 +31,6 @@ export class BlogCommentRepository extends BasePostgresRepository<BlogCommentEnt
       where: {
         id,
       },
-      take: MAX_COMMENTS_COUNT,
     });
 
     if (!record) {
@@ -42,30 +40,38 @@ export class BlogCommentRepository extends BasePostgresRepository<BlogCommentEnt
     return this.createEntityFromDocument(record)
   }
 
-  public async findByPostId(postId: string): Promise<BlogCommentEntity[]> {
-    const records = await this.client.comment.findMany({
-      where: {
-        postId
-      }
-    });
+  public async findByPostId(postId: string, query?: BlogCommentQuery): Promise<Pagination<BlogCommentEntity>> {
+    const skip = query?.page && query?.limit ? (query.page - 1) * query.limit : undefined;
+    const take = Number(query?.limit);
+    const [records, count] = await Promise.all([
+      this.client.comment.findMany({
+        where: {
+          postId,
+        },
+        skip,
+        take,
+      }),
+      this.client.comment.count({
+        where: {
+          postId,
+        }
+      }),
+    ]);
 
-    return records.map(record => this.createEntityFromDocument(record))
+    return {
+      entities: records.map(record => this.createEntityFromDocument(record)),
+      currentPage: query?.page,
+      totalPages: Math.ceil(count / take),
+      itemsPerPage: take,
+      totalItems: count,
+    }
   }
 
-  public async deleteComment(id: string, dto: DeleteCommentDto): Promise<void> {
-    const comment = await this.client.comment.findFirst({
+  public async deleteById(id: string): Promise<void> {
+    await this.client.comment.delete({
       where: {
         id,
-        author: dto.author,
-      },
-    })
-
-    if (comment) {
-      await this.client.comment.delete({
-        where: {
-          id
-        }
-      })
-    }
+      }
+    });
   }
 }

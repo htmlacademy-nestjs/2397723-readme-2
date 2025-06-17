@@ -1,63 +1,104 @@
-import {Comment, PostType} from '@project/types';
-import {IsBoolean, IsDate, IsNumber, IsString} from 'class-validator';
+import {
+  IsArray,
+  IsMongoId,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID
+} from 'class-validator';
+import {ApiProperty} from '@nestjs/swagger';
+import {POST_FIELD_INFO} from '../blog-post.const';
 
 export class UpdatePostDto {
+  @ApiProperty({
+    description: POST_FIELD_INFO.TITLE_DESCRIPTION,
+    example: POST_FIELD_INFO.TITLE_EXAMPLE,
+  })
   @IsString()
-  public authorId?: string;
-
-  @IsString()
-  public tags?: string;
-
-  @IsBoolean()
-  public isPublished?: boolean;
-
-  @IsDate()
-  public publicationDate?: Date;
-
-  @IsString()
-  public type?: PostType;
-
-  @IsNumber()
-  public likesCount?: number;
-
-  public comments?: Comment[];
-
-  @IsNumber()
-  public commentsCount?: number;
-
-  @IsBoolean()
-  public isReposted?: boolean;
-
-  @IsString()
-  public originalAuthorId?: string;
-
-  @IsString()
-  public originalPostId?: string;
-
-  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
   public title?: string;
 
+  @ApiProperty({
+    description: POST_FIELD_INFO.LINK_DESCRIPTION,
+    example: POST_FIELD_INFO.LINK_EXAMPLE,
+  })
   @IsString()
-  public youtubeLink?: string;
-
-  @IsString()
-  public preview?: string;
-
-  @IsString()
-  public textPostText?: string;
-
-  @IsString()
-  public quotePostText?: string;
-
-  @IsString()
-  public quoteAuthor?: string;
-
-  @IsString()
-  public photo?: string;
-
-  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
   public link?: string;
 
+  @ApiProperty({
+    description: POST_FIELD_INFO.PREVIEW_DESCRIPTION,
+    example: POST_FIELD_INFO.PREVIEW_EXAMPLE,
+  })
   @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  public preview?: string;
+
+  @ApiProperty({
+    description: POST_FIELD_INFO.TEXT_DESCRIPTION,
+    example: POST_FIELD_INFO.TEXT_EXAMPLE,
+  })
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  public text?: string;
+
+  @ApiProperty({
+    description: POST_FIELD_INFO.AUTHOR_DESCRIPTION,
+    example: POST_FIELD_INFO.AUTHOR_EXAMPLE,
+  })
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  public author?: string;
+
+  @ApiProperty({
+    description: POST_FIELD_INFO.PHOTO_DESCRIPTION,
+    example: POST_FIELD_INFO.PHOTO_EXAMPLE,
+  })
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  public photo?: string;
+
+  @ApiProperty({
+    description: POST_FIELD_INFO.DESCRIPTION_DESCRIPTION,
+    example: POST_FIELD_INFO.DESCRIPTION_EXAMPLE,
+  })
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
   public description?: string;
+
+  @ApiProperty({
+    description: POST_FIELD_INFO.LIKES,
+    example: POST_FIELD_INFO.LIKES_EXAMPLE,
+  })
+  @IsArray()
+  @IsMongoId({each: true})
+  @IsOptional()
+  public likes?: string[];
+
+  @IsArray()
+  @IsOptional()
+  public comments?: string[];
+
+  @ApiProperty({
+    description: POST_FIELD_INFO.TAGS_DESCRIPTION,
+    example: POST_FIELD_INFO.TAGS_EXAMPLE,
+  })
+  @IsUUID('all', {each: true})
+  @IsArray()
+  @IsOptional()
+  public tags?: string[];
+
+  @ApiProperty({
+    description: POST_FIELD_INFO.USER_ID,
+    example: POST_FIELD_INFO.USER_ID_EXAMPLE,
+  })
+  @IsMongoId()
+  public userId: string;
 }

@@ -3,23 +3,27 @@ import {
   Body,
   Controller,
   Delete,
-  Get,
-  HttpException,
+  Get, HttpCode,
   HttpStatus,
   Param,
   Patch,
-  Post,
+  Post, Query,
 } from '@nestjs/common';
+import {fillDto} from '@project/helpers';
 import {BlogPostService} from './blog-post.service';
 import {CreatePostDto} from './dto/create-post.dto';
-import {fillDto} from '@project/helpers';
-import {CreatePostRdo} from './rdo/create-post.rdo';
 import {UpdatePostDto} from './dto/update-post.dto';
-import {RepostDto} from './dto/repost-dto';
-import {FindByTitleDto} from './dto/find-by-title.dto';
+import {BlogPostQuery} from './query/blog-post.query';
+import {API} from './blog-post.const';
+import {BlogPostSearchQuery} from './query/blog-post-search.query';
+import {BlogPostRdo} from './rdo/blog-post.rdo';
+import {BlogPostWithPaginationRdo} from './rdo/blog-post-with-pagination.rdo';
+import {BlogPostMoreRdo} from './rdo/blog-post-more.rdo';
+import {UserIdDto} from './dto/user-id.dto';
+import {ToggleLikeDto} from './dto/toggle-like.dto';
 
 @ApiTags('blog service')
-@Controller('post')
+@Controller('posts')
 export class BlogPostController {
   constructor(
     private readonly blogPostService: BlogPostService
@@ -27,88 +31,147 @@ export class BlogPostController {
   }
 
   @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'New post has been created successfully.',
-  })
-  @Post('create')
-  public async create(@Body() dto: CreatePostDto) {
-    const newPost = await this.blogPostService.createPost(dto);
-    if (!newPost) {
-      throw new HttpException('Post not created', HttpStatus.BAD_REQUEST);
-    }
-    return fillDto(CreatePostRdo, newPost.toObject());
-  }
-
-  @ApiResponse({
+    type: BlogPostQuery,
     status: HttpStatus.OK,
+    description: API.FOUNDED,
   })
+  @HttpCode(HttpStatus.OK)
   @Get('/')
-  public async getAllPosts() {
-    return await this.blogPostService.getAllPosts();
-  }
-
-  @ApiResponse({
-    status: HttpStatus.OK,
-  })
-  @Get('find-by-title')
-  public async findByTitle(@Body() dto: FindByTitleDto) {
-    const existPost = await this.blogPostService.findPostByTitle(dto);
-    if (!existPost) {
-      throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
+  public async index(
+    @Query()
+      query: BlogPostQuery,
+  ) {
+    const postsWithPagination = await this.blogPostService.getAllPosts(query);
+    const result = {
+      ...postsWithPagination,
+      entities: postsWithPagination.entities.map(post => fillDto(BlogPostRdo, post.toObject())),
     }
-    return fillDto(CreatePostRdo, existPost.toObject());
+
+    return fillDto(BlogPostWithPaginationRdo, result);
   }
 
   @ApiResponse({
-    status: HttpStatus.OK
+    type: CreatePostDto,
+    status: HttpStatus.CREATED,
+    description: API.CREATED,
   })
-  @Get(':id')
-  public async getDetails(@Param('id') id: string) {
-    const existPost = await this.blogPostService.getPostDetails(id);
-    if (!existPost) {
-      throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
-    }
-    return fillDto(CreatePostRdo, existPost.toObject());
+  @Post('/')
+  public async create(
+    @Body()
+      dto: CreatePostDto,
+  ) {
+    const newPost = await this.blogPostService.createPost(dto);
+
+    return fillDto(BlogPostRdo, newPost.toObject());
+  }
+
+  @ApiResponse({
+    type: BlogPostSearchQuery,
+    status: HttpStatus.OK,
+    description: API.SEARCH,
+  })
+  @Get('/search')
+  public async search(
+    @Query()
+      query: BlogPostSearchQuery,
+  ) {
+    const result = await this.blogPostService.searchPosts(query.substring);
+
+    return fillDto(BlogPostRdo, result);
   }
 
   @ApiResponse({
     status: HttpStatus.OK,
+    description: API.FOUNDED,
   })
-  @Patch(':id')
-  public async updatePost(@Param('id') id: string, @Body() dto: UpdatePostDto) {
-    const existPost = await this.blogPostService.updatePost(id, dto);
-    if (!existPost) {
-      throw new HttpException('Post not found', HttpStatus.NOT_FOUND);
-    }
-    return fillDto(UpdatePostDto, existPost.toObject());
+  @Get('/:id')
+  public async show(
+    @Param('id')
+      id: string,
+  ) {
+    const post = await this.blogPostService.getPost(id);
+
+    return fillDto(BlogPostMoreRdo, post.toObject());
   }
 
   @ApiResponse({
-    status: HttpStatus.OK,
+    type: UpdatePostDto,
+    status: HttpStatus.FOUND,
+    description: API.UPDATE,
   })
-  @Delete(':id')
-  public async deletePost(@Param('id') id: string) {
-    return await this.blogPostService.deletePost(id);
+  @Patch('/:id')
+  public async update(
+    @Param('id')
+      id: string,
+    @Body()
+      dto: UpdatePostDto,
+  ) {
+    const updatedPost = await this.blogPostService.updatePost(id, dto, dto.userId);
+
+    return fillDto(BlogPostRdo, updatedPost.toObject());
   }
 
   @ApiResponse({
-    status: HttpStatus.OK,
+    type: UserIdDto,
+    status: HttpStatus.FOUND,
+    description: API.UPDATE,
   })
-  @Patch(':id/set-like')
-  public async setLike(@Param('id') id: string) {
-    return await this.blogPostService.setLike(id);
+  @Patch('/status/:id')
+  public async updateStatus(
+    @Param('id')
+      id: string,
+    @Body()
+      {userId}: UserIdDto,
+  ) {
+    const updatedPost = await this.blogPostService.updatePostStatus(id, userId);
+
+    return fillDto(BlogPostRdo, updatedPost.toObject());
   }
 
   @ApiResponse({
-    status: HttpStatus.OK,
+    status: HttpStatus.NO_CONTENT,
+    description: API.DELETE,
   })
-  @Patch(':id/remove-like')
-  public async removeLike(@Param('id') id: string) {
-    return await this.blogPostService.removeLike(id);
+  @Delete('/:id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  public async destroy(
+    @Param('id')
+      id: string,
+    @Body()
+      {userId}: UserIdDto,
+  ) {
+    await this.blogPostService.deletePost(id, userId);
   }
 
-  @Post(':id/repost')
-  public async repost(@Param('id') id: string, @Body() dto: RepostDto) {
-    return await this.blogPostService.createRepost(id, dto)
+  @ApiResponse({
+    type: ToggleLikeDto,
+    status: HttpStatus.FOUND,
+    description: API.LIKE,
+  })
+  @Patch('/like/:id')
+  public async like(
+    @Param('id')
+      id: string,
+    @Body()
+      {likeId}: ToggleLikeDto,
+  ) {
+    const updatedPost = await this.blogPostService.toggleLike(id, likeId);
+
+    return fillDto(BlogPostRdo, updatedPost.toObject());
+  }
+
+  @ApiResponse({
+    type: CreatePostDto,
+    status: HttpStatus.CREATED,
+    description: API.REPOST,
+  })
+  @Post('/repost/:id')
+  public async repost(
+    @Param('id')
+      id: string,
+    @Body()
+      dto: UserIdDto,
+  ) {
+    return fillDto(BlogPostRdo, await this.blogPostService.repostPost(id, dto.userId));
   }
 }
