@@ -3,9 +3,9 @@ POST http://localhost:4000/api/users/register HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "user@email.test",
-  "name": "Name Test",
-  "password": "123456"
+  "email": "seriojo@ser.se",
+  "name": "Seriojo Seriojovich",
+  "password": "qwerty"
 }
 
 ###
@@ -39,8 +39,8 @@ POST http://localhost:4000/api/users/login HTTP/1.1
 Content-Type: application/json
 
 {
-  "email": "user@email.test",
-  "password": "654321"
+  "email": "seriojo@ser.se",
+  "password": "qwerty"
 }
 
 ###

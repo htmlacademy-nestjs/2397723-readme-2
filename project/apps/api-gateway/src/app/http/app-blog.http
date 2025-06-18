@@ -1,0 +1,135 @@
+# Get all posts
+GET http://localhost:4000/api/blog HTTP/1.1
+
+###
+# Get post by ID
+GET http://localhost:4000/api/blog/5548a02e-538e-4635-8e5c-ef93b7398e57 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJVcGRhdGUgTmFtZSIsImlhdCI6MTc1MDI2NDI4OSwiZXhwIjoxNzUwMzUwNjg5fQ.dZ4mZ0OWiOO97M3XcRsLgQYgZE-h3-JJdeaLeguzZ7s
+
+###
+# Get posts by search string in title
+GET http://localhost:4000/api/blog/search?substring=тест HTTP/1.1
+
+###
+# Repost some post by ID
+POST http://localhost:4000/api/blog/repost/5548a02e-538e-4635-8e5c-ef93b7398e57 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJVcGRhdGUgTmFtZSIsImlhdCI6MTc1MDI2NDI4OSwiZXhwIjoxNzUwMzUwNjg5fQ.dZ4mZ0OWiOO97M3XcRsLgQYgZE-h3-JJdeaLeguzZ7s
+
+###
+# Get posts by userId
+GET http://localhost:4000/api/blog?sortDirection=desc&userId=68524a9b15bd7390daa11254 HTTP/1.1
+
+###
+# Get posts by tags
+GET http://localhost:4000/api/blog?sortDirection=desc&tags[]=f5dfd57c-c41f-4c70-ab54-534069c9b937 HTTP/1.1
+
+###
+# Get posts with sort by likes count
+GET http://localhost:4000/api/blog?sortDirection=desc&sortType=likes HTTP/1.1
+
+###
+# Create a new post
+POST http://localhost:4000/api/blog HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJVcGRhdGUgTmFtZSIsImlhdCI6MTc1MDI2NDI4OSwiZXhwIjoxNzUwMzUwNjg5fQ.dZ4mZ0OWiOO97M3XcRsLgQYgZE-h3-JJdeaLeguzZ7s
+Content-Type: application/json
+
+{
+  "postType": "quote",
+  "text": "Проверка сервиса API",
+  "author": "Какой-то автор",
+  "tags": ["new tag", "Test tag", "NewYear"]
+}
+
+###
+# Create a new TEXT post
+POST http://localhost:4000/api/blog HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJVcGRhdGUgTmFtZSIsImlhdCI6MTc1MDI2NDI4OSwiZXhwIjoxNzUwMzUwNjg5fQ.dZ4mZ0OWiOO97M3XcRsLgQYgZE-h3-JJdeaLeguzZ7s
+Content-Type: application/json
+
+{
+  "postType": "text",
+  "title": "Заголовок нового поста",
+  "preview": "Краткое содержание текста более пятидесяти символов",
+  "text": "Полная версия поста текста, объемом более ста символов, чтобы проверить валидацию, которая должна пройти без каких-либо проблем",
+  "tags": ["new tag", "Test tag", "NewYear"]
+}
+
+###
+# Create a new QUOTE post
+POST http://localhost:4000/api/blog HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJVcGRhdGUgTmFtZSIsImlhdCI6MTc1MDI2NDI4OSwiZXhwIjoxNzUwMzUwNjg5fQ.dZ4mZ0OWiOO97M3XcRsLgQYgZE-h3-JJdeaLeguzZ7s
+Content-Type: application/json
+
+{
+  "postType": "quote",
+  "text": "Никогда нельзя доверять цитатам в интернете",
+  "author": "В.И. Ленин",
+  "tags": ["absolutEly", "truth"]
+}
+
+###
+# Create a new Video post
+POST http://localhost:4000/api/blog HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJVcGRhdGUgTmFtZSIsImlhdCI6MTc1MDI2NDI4OSwiZXhwIjoxNzUwMzUwNjg5fQ.dZ4mZ0OWiOO97M3XcRsLgQYgZE-h3-JJdeaLeguzZ7s
+Content-Type: application/json
+
+{
+  "postType": "video",
+  "title": "Видео про очень милых щенят корейцев",
+  "link": "https://vkvideo.ru/video93002271_163377874https://vkvideo.ru/video93002271_163377874",
+  "tags": ["absolutEly", "truth", "hg"]
+}
+
+###
+# Create a new Photo post
+POST http://localhost:4000/api/blog HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJVcGRhdGUgTmFtZSIsImlhdCI6MTc1MDI2NDI4OSwiZXhwIjoxNzUwMzUwNjg5fQ.dZ4mZ0OWiOO97M3XcRsLgQYgZE-h3-JJdeaLeguzZ7s
+Content-Type: application/json
+
+{
+  "postType": "photo",
+  "photo": "best-photo-ever.jpg",
+  "tags": ["absolutEly", "t ruth"]
+}
+
+###
+# Create a new Link post
+POST http://localhost:4000/api/blog HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJVcGRhdGUgTmFtZSIsImlhdCI6MTc1MDI2NDI4OSwiZXhwIjoxNzUwMzUwNjg5fQ.dZ4mZ0OWiOO97M3XcRsLgQYgZE-h3-JJdeaLeguzZ7s
+Content-Type: application/json
+
+{
+  "postType": "link",
+  "link": "https://acomics.ru/~hello-cthulhu",
+  "tags": ["absolutEly", "4truth", "88888"]
+}
+
+###
+# Update post by id
+PATCH http://localhost:4000/api/blog/49d51f90-7698-4a32-86d3-011ceb1249dd HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJVcGRhdGUgTmFtZSIsImlhdCI6MTc1MDI2NDI4OSwiZXhwIjoxNzUwMzUwNjg5fQ.dZ4mZ0OWiOO97M3XcRsLgQYgZE-h3-JJdeaLeguzZ7s
+Content-Type: application/json
+
+{
+  "author": "Джейсон Стэтхем"
+}
+
+###
+# Update status post
+PATCH http://localhost:4000/api/blog/status/49d51f90-7698-4a32-86d3-011ceb1249dd HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJVcGRhdGUgTmFtZSIsImlhdCI6MTc1MDI2NDI4OSwiZXhwIjoxNzUwMzUwNjg5fQ.dZ4mZ0OWiOO97M3XcRsLgQYgZE-h3-JJdeaLeguzZ7s
+
+###
+# Delete post by ID
+DELETE http://localhost:4000/api/blog/b74f5dde-6c97-4a94-82e2-b89f54c9492c HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJVcGRhdGUgTmFtZSIsImlhdCI6MTc1MDI2NDI4OSwiZXhwIjoxNzUwMzUwNjg5fQ.dZ4mZ0OWiOO97M3XcRsLgQYgZE-h3-JJdeaLeguzZ7s
+
+###
+# Toggle like for post
+PATCH http://localhost:4000/api/blog/like/628a5962-8ec6-413e-a807-378940a9be29 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJVcGRhdGUgTmFtZSIsImlhdCI6MTc1MDI2NDI4OSwiZXhwIjoxNzUwMzUwNjg5fQ.dZ4mZ0OWiOO97M3XcRsLgQYgZE-h3-JJdeaLeguzZ7s
+Content-Type: application/json
+
+{
+  "likeId": "68524a9b15bd7390daa11233"
+}

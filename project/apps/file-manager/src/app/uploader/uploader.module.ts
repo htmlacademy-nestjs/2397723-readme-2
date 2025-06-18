@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { UploaderService } from './uploader.service';
-import { UploaderController } from './uploader.controller';
 import { ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { UploaderService } from './uploader.service';
+import { UploaderController } from './uploader.controller';
 import { FileSchema, UploaderModel } from './uploader.model';
 import { UploaderRepository } from './uploader.repository';
 

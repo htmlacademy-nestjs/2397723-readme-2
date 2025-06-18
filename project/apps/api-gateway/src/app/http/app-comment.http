@@ -1,0 +1,19 @@
+# Get all comments for post
+GET http://localhost:4000/api/blog/49d51f90-7698-4a32-86d3-011ceb1249dd/comments/?limit=1 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJVcGRhdGUgTmFtZSIsImlhdCI6MTc1MDI2NDI4OSwiZXhwIjoxNzUwMzUwNjg5fQ.dZ4mZ0OWiOO97M3XcRsLgQYgZE-h3-JJdeaLeguzZ7s
+
+###
+# Create a new comment for post
+POST http://localhost:4000/api/blog/93c4d3b9-7435-4848-86d1-eef09c3194ab/comments HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJVcGRhdGUgTmFtZSIsImlhdCI6MTc1MDI2NDI4OSwiZXhwIjoxNzUwMzUwNjg5fQ.dZ4mZ0OWiOO97M3XcRsLgQYgZE-h3-JJdeaLeguzZ7s
+Content-Type: application/json
+
+{
+  "text": "Точняяк!!!11!!"
+}
+
+###
+# Delete comment by id
+DELETE http://localhost:4000/api/blog/346c60fa-3205-4786-9be0-49799d93bc8f/comments HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJVcGRhdGUgTmFtZSIsImlhdCI6MTc1MDI2NDI4OSwiZXhwIjoxNzUwMzUwNjg5fQ.dZ4mZ0OWiOO97M3XcRsLgQYgZE-h3-JJdeaLeguzZ7s
+Content-Type: application/json
