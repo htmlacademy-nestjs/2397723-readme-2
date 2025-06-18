@@ -1,6 +1,6 @@
-import { IsMongoId, IsOptional, IsString } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
-import { API } from '../authentication.constant';
+import {IsMongoId, IsOptional, IsString} from 'class-validator';
+import {ApiProperty} from '@nestjs/swagger';
+import {API} from '../authentication.constant';
 
 export class UpdateUserDto {
   @ApiProperty({

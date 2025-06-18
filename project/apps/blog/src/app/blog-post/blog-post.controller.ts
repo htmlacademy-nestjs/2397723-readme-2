@@ -7,20 +7,21 @@ import {
   HttpStatus,
   Param,
   Patch,
-  Post, Query,
+  Post, Query, UseInterceptors,
 } from '@nestjs/common';
 import {fillDto} from '@project/helpers';
 import {BlogPostService} from './blog-post.service';
 import {CreatePostDto} from './dto/create-post.dto';
 import {UpdatePostDto} from './dto/update-post.dto';
 import {BlogPostQuery} from './query/blog-post.query';
-import {API} from './blog-post.const';
+import {API} from './blog-post.constant';
 import {BlogPostSearchQuery} from './query/blog-post-search.query';
 import {BlogPostRdo} from './rdo/blog-post.rdo';
 import {BlogPostWithPaginationRdo} from './rdo/blog-post-with-pagination.rdo';
 import {BlogPostMoreRdo} from './rdo/blog-post-more.rdo';
 import {UserIdDto} from './dto/user-id.dto';
 import {ToggleLikeDto} from './dto/toggle-like.dto';
+import {BlogPostValidateInterceptor} from './interceptors/blog-post-validate.interceptor';
 
 @ApiTags('blog service')
 @Controller('posts')
@@ -55,6 +56,7 @@ export class BlogPostController {
     status: HttpStatus.CREATED,
     description: API.CREATED,
   })
+  @UseInterceptors(BlogPostValidateInterceptor)
   @Post('/')
   public async create(
     @Body()

@@ -1,6 +1,6 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { RefreshTokenModel, RefreshTokenSchema } from './refresh-token.model';
+import {Module} from '@nestjs/common';
+import {MongooseModule} from '@nestjs/mongoose';
+import {RefreshTokenModel, RefreshTokenSchema} from './refresh-token.model';
 import {RefreshTokenService} from './refresh-token.service';
 import {RefreshTokenRepository} from './refresh-token.repository';
 
@@ -21,4 +21,5 @@ import {RefreshTokenRepository} from './refresh-token.repository';
     RefreshTokenService,
   ],
 })
-export class RefreshTokenModule { }
+export class RefreshTokenModule {
+}

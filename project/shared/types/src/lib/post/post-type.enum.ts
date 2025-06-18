@@ -1,7 +1,7 @@
 export enum PostEnum {
-  Video = 'video',
-  Text = 'text',
-  Quote = 'quote',
-  Photo = 'photo',
-  Link = 'link',
+  video = 'video',
+  text = 'text',
+  quote = 'quote',
+  photo = 'photo',
+  link = 'link',
 }

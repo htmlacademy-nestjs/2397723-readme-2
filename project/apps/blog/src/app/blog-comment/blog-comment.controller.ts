@@ -65,7 +65,6 @@ export class BlogCommentController {
     @Body()
       dto: DeleteCommentDto,
   ) {
-    console.log("ID", id)
-    await this.blogCommentService.deleteComment(id, dto.authorId);
+    await this.blogCommentService.deleteComment(id, dto.userId);
   }
 }

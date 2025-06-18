@@ -29,8 +29,8 @@ Content-Type: application/json
 
 {
   "postType": "text",
-  "title": "Заголовок тестового",
-  "text": "Это цитата для проверки",
+  "title": "Заголовок",
+  "text": "Очень интересный и содержательный текст",
   "userId": "6580462f5e238357ab17003a",
   "tags": [
     "f5dfd57c-c41f-4c70-ab54-534069c9b937"
@@ -44,8 +44,8 @@ Content-Type: application/json
 
 {
   "postType": "quote",
-  "text": "Это цитата для проверки",
-  "author": "Какой-то автор",
+  "text": "Если достаточно долго выбирать цитату, то труп твоего врага обязательно проплывет мимо",
+  "author": "Лао Цзы",
   "userId": "6580462f5e238357ab17003a",
   "tags": [
     "f5dfd57c-c41f-4c70-ab54-534069c9b937"
@@ -76,7 +76,7 @@ PATCH http://localhost:3000/api/posts/6d308040-96a2-4162-bea6-2338e9976502 HTTP/
 Content-Type: application/json
 
 {
-  "author": "Обновленный автор цитаты",
+  "author": "Цао Лзы",
   "userId": "658170cbb954e9f5b905cc01"
 }
 

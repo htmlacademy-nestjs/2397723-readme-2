@@ -35,7 +35,7 @@ export const POST_ERROR_MESSAGES = {
   PHOTO_FORMAT: 'Post photo field must be a file less then 1MB and PNG or JPG',
   DESCRIPTION_FORMAT: 'Post description field must be a string',
   DESCRIPTION_LENGTH: `Post description field must be less then ${POST_LENGTH_VALUES.DESCRIPTION_LINK_MAX} symbols`,
-  QUOTE_LENGTH: `Quote lenght must be from ${POST_LENGTH_VALUES.QUOTE_LENGTH_MIN} to ${POST_LENGTH_VALUES.QUOTE_LENGTH_MAX} symbols`
+  QUOTE_LENGTH: `Quote length must be from ${POST_LENGTH_VALUES.QUOTE_LENGTH_MIN} to ${POST_LENGTH_VALUES.QUOTE_LENGTH_MAX} symbols`
 }
 
 export const POST_FIELD_INFO = {

@@ -34,7 +34,7 @@ function getPosts() {
       comments: [
         {
           text: 'Тест',
-          authorId: FIRST_USER_ID,
+          userId: FIRST_USER_ID,
         }
       ]
     },
@@ -53,11 +53,11 @@ function getPosts() {
       comments: [
         {
           text: 'Это действительно отличная книга!',
-          authorId: FIRST_USER_ID,
+          userId: FIRST_USER_ID,
         },
         {
           text: 'Слишком много воды, там бы и 5 минут хватило',
-          authorId: SECOND_USER_ID,
+          userId: SECOND_USER_ID,
         },
       ]
     }

@@ -36,7 +36,7 @@ model Post {
 model Comment {
   id        String   @id @default(uuid()) @map("comment_id")
   text      String
-  authorId  String   @map("user_id")
+  userId    String   @map("user_id")
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   postId    String   @map("post_id")
   createdAt DateTime @default(now()) @map("created_at")

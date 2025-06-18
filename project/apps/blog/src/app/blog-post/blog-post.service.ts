@@ -5,7 +5,6 @@ import {BlogPostEntity} from './blog-post.entity';
 import {BlogPostRepository} from './blog-post.repository';
 import {UpdatePostDto} from './dto/update-post.dto';
 import {BlogTagService} from '../blog-tag/blog-tag.service';
-import {BlogCommentService} from '../blog-comment/blog-comment.service';
 import {BlogPostQuery} from './query/blog-post.query';
 
 @Injectable()
@@ -13,17 +12,15 @@ export class BlogPostService {
   constructor(
     private readonly blogPostRepository: BlogPostRepository,
     private readonly blogTagService: BlogTagService,
-    private readonly blogCommentService: BlogCommentService,
   ) {
   }
 
   public async getAllPosts(query?: BlogPostQuery): Promise<Pagination<BlogPostEntity>> {
-    console.log(query)
     return this.blogPostRepository.find(query)
   }
 
   public async createPost(dto: CreatePostDto): Promise<BlogPostEntity> {
-    const tags = await this.blogTagService.getTagsByIds(dto.tags);
+    const tags = dto.tags ? await this.blogTagService.getTagsByIds(dto.tags) : [];
     const newPost = BlogPostEntity.fromDto(dto, tags, []);
     await this.blogPostRepository.save(newPost);
 

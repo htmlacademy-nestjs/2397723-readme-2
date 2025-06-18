@@ -20,5 +20,5 @@ export class CreateCommentDto {
   })
   @IsString()
   @IsMongoId()
-  public authorId: string;
+  public userId: string;
 }

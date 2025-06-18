@@ -1,5 +1,5 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import {Module} from '@nestjs/common';
+import {ConfigModule} from '@nestjs/config';
 import notificationConfig from './notification.config';
 
 const ENV_FILE_PATH = 'apps/notification/notification.env';
@@ -14,4 +14,5 @@ const ENV_FILE_PATH = 'apps/notification/notification.env';
     }),
   ]
 })
-export class NotificationConfigModule { }
+export class NotificationConfigModule {
+}

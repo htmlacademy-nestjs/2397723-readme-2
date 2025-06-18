@@ -4,7 +4,7 @@ import {BasePostgresRepository} from '@project/core';
 import {PrismaClientService} from '@project/models';
 import {Pagination, Post, SortDirectionEnum, SortEnum} from '@project/types';
 import {BlogPostEntity} from './blog-post.entity';
-import {POST} from './blog-post.const';
+import {POST} from './blog-post.constant';
 import {BlogPostQuery} from './query/blog-post.query';
 
 @Injectable()

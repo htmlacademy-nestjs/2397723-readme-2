@@ -1,6 +1,6 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
-import { API, EMAIL_SUBSCRIBER_ERROR } from '../email-subscriber.constant';
+import {IsEmail, IsNotEmpty, IsString} from 'class-validator';
+import {ApiProperty} from '@nestjs/swagger';
+import {API, EMAIL_SUBSCRIBER_ERROR} from '../email-subscriber.constant';
 
 export class CreateSubscriberDto {
   @ApiProperty({

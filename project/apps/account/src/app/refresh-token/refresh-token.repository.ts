@@ -1,10 +1,10 @@
-import { Model } from 'mongoose';
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
+import {Model} from 'mongoose';
+import {Injectable} from '@nestjs/common';
+import {InjectModel} from '@nestjs/mongoose';
 import {Token} from '@project/types';
 import {BaseMongoRepository} from '@project/core';
-import { RefreshTokenEntity } from './refresh-token.entity';
-import { RefreshTokenModel } from './refresh-token.model';
+import {RefreshTokenEntity} from './refresh-token.entity';
+import {RefreshTokenModel} from './refresh-token.model';
 
 @Injectable()
 export class RefreshTokenRepository extends BaseMongoRepository<RefreshTokenEntity, RefreshTokenModel> {
@@ -21,18 +21,18 @@ export class RefreshTokenRepository extends BaseMongoRepository<RefreshTokenEnti
 
   public async deleteByTokenId(tokenId: string) {
     return this.refreshTokenModel
-      .deleteOne({ tokenId })
+      .deleteOne({tokenId})
       .exec();
   }
 
   public async findByTokenId(tokenId: string): Promise<Token | null> {
     return this.refreshTokenModel
-      .findOne({ tokenId })
+      .findOne({tokenId})
       .exec();
   }
 
   public async deleteExpiredTokens() {
     return this.refreshTokenModel
-      .deleteMany({ expiresIn: { $lt: new Date() } });
+      .deleteMany({expiresIn: {$lt: new Date()}});
   }
 }

@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import {FileUploaderModule} from './uploader/uploader.module';
+import {Module} from '@nestjs/common';
+import {MongooseModule} from '@nestjs/mongoose';
 import {FileManagerConfigModule, getMongooseOptions} from '@project/shared/config/file-manager';
+import {FileUploaderModule} from './uploader/uploader.module';
 
 @Module({
   imports: [
@@ -12,4 +12,5 @@ import {FileManagerConfigModule, getMongooseOptions} from '@project/shared/confi
   controllers: [],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {
+}

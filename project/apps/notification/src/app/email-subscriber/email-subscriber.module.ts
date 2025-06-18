@@ -1,6 +1,6 @@
+import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 import {getRabbitMQOptions} from '@project/helpers';
 import { EmailSubscriberModel, EmailSubscriberSchema } from './email-subscriber.model';
 import { EmailSubscriberService } from './email-subscriber.service';

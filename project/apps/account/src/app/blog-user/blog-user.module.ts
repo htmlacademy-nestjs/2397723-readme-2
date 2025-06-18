@@ -1,7 +1,7 @@
 import {Module} from '@nestjs/common';
+import {MongooseModule} from '@nestjs/mongoose';
 import {BlogUserRepository} from './blog-user.repository';
 import {BlogUserModel, BlogUserSchema} from './blog-user.model';
-import {MongooseModule} from '@nestjs/mongoose';
 
 @Module({
   imports: [MongooseModule.forFeature([

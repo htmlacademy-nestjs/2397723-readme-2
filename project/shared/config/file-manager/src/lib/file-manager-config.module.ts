@@ -1,5 +1,5 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import {Module} from '@nestjs/common';
+import {ConfigModule} from '@nestjs/config';
 import fileManagerConfig from './file-manager.config';
 
 const ENV_FILE_PATH = 'apps/file-manager/.env';
@@ -14,4 +14,5 @@ const ENV_FILE_PATH = 'apps/file-manager/.env';
     }),
   ]
 })
-export class FileManagerConfigModule { }
+export class FileManagerConfigModule {
+}

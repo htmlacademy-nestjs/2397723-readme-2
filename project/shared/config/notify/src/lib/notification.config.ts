@@ -1,5 +1,5 @@
 import * as Joi from 'joi';
-import { registerAs } from '@nestjs/config';
+import {registerAs} from '@nestjs/config';
 
 const DEFAULT_PORT = 3002;
 const DEFAULT_MONGO_PORT = 27017;
@@ -66,7 +66,7 @@ const validationSchema = Joi.object({
 });
 
 function validateConfig(config: NotificationConfig): void {
-  const { error } = validationSchema.validate(config, { abortEarly: true });
+  const {error} = validationSchema.validate(config, {abortEarly: true});
 
   if (error) {
     throw new Error(`[Notify Config Validation Error]: ${error.message}`);

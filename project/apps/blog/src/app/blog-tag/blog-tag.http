@@ -1,13 +1,13 @@
 # Get all tags
-GET http://localhost:3000/api/tags HTTP/1.1
+GET http://localhost:3010/api/tags HTTP/1.1
 
 ###
 # Get tag by ID
-GET http://localhost:3000/api/tags/f5dfd57c-c41f-4c70-ab54-534069c9b937 HTTP/1.1
+GET http://localhost:3010/api/tags/20dd65b2-60e3-40f4-9f7e-550c71342668 HTTP/1.1
 
 ###
 # Create tags
-POST http://localhost:3000/api/tags HTTP/1.1
+POST http://localhost:3010/api/tags HTTP/1.1
 Content-Type: application/json
 
 {

@@ -1,6 +1,6 @@
+import {Model} from 'mongoose';
 import {InjectModel} from '@nestjs/mongoose';
 import {Injectable} from '@nestjs/common';
-import {Model} from 'mongoose';
 import {BaseMongoRepository} from '@project/core';
 import {BlogUserEntity} from './blog-user.entity';
 import {BlogUserModel} from './blog-user.model';

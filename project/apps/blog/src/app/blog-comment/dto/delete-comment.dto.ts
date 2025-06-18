@@ -9,5 +9,5 @@ export class DeleteCommentDto {
   })
   @IsNotEmpty()
   @IsString()
-  public authorId: string;
+  public userId: string;
 }
