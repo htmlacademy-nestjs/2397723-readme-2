@@ -1,0 +1,76 @@
+# Create a new user
+POST http://localhost:4000/api/users/register HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "user@email.test",
+  "name": "Name Test",
+  "password": "123456"
+}
+
+###
+# Add avatar to user
+POST http://localhost:4000/api/users/avatar HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJOYW1lIFRlc3QiLCJpYXQiOjE3NTAyMjM1MzksImV4cCI6MTc1MDMwOTkzOX0.wJxHFikaouECkxFAaGsSHC829HOECW0HYJbdVWgifEk
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="avatar.jpg"
+
+< ../avatar.jpg
+
+--boundary--
+
+###
+# Create a new user by authorized user (1.1)
+POST http://localhost:4000/api/users/register HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJOYW1lIFRlc3QiLCJpYXQiOjE3NTAyMjM1MzksImV4cCI6MTc1MDMwOTkzOX0.wJxHFikaouECkxFAaGsSHC829HOECW0HYJbdVWgifEk
+Content-Type: application/json
+
+{
+  "email": "user@email.test",
+  "name": "Name Test",
+  "password": "123456"
+}
+
+###
+# Login user by email and password
+POST http://localhost:4000/api/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "user@email.test",
+  "password": "654321"
+}
+
+###
+# Get user info
+GET http://localhost:4000/api/users/68524a9b15bd7390daa11254 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJOYW1lIFRlc3QiLCJpYXQiOjE3NTAyMjM1MzksImV4cCI6MTc1MDMwOTkzOX0.wJxHFikaouECkxFAaGsSHC829HOECW0HYJbdVWgifEk
+
+###
+# Update user
+PATCH http://localhost:4000/api/users/update HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJOYW1lIFRlc3QiLCJpYXQiOjE3NTAyMjM1MzksImV4cCI6MTc1MDMwOTkzOX0.wJxHFikaouECkxFAaGsSHC829HOECW0HYJbdVWgifEk
+Content-Type: application/json
+
+{
+  "name": "Update Name"
+}
+
+###
+# Get new JWT pair
+POST http://localhost:4000/api/users/refresh HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJVcGRhdGUgTmFtZSIsInRva2VuSWQiOiI3ZDIyODk5MC1mMDljLTRkOWUtYWUwOS03N2Y0ZmQ1NjRlYjUiLCJpYXQiOjE3NTAyMjM4MzIsImV4cCI6MTc1MDMxMDIzMn0.cPqZ5kGOX9Y_XXv6jBbkh3H2OwRUGjIQd33Tu3fBx4o
+
+###
+# Change password (1.9)
+POST http://localhost:4000/api/users/password HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJOYW1lIFRlc3QiLCJpYXQiOjE3NTAyMjM1MzksImV4cCI6MTc1MDMwOTkzOX0.wJxHFikaouECkxFAaGsSHC829HOECW0HYJbdVWgifEk
+Content-Type: application/json
+
+{
+  "userId": "68524a9b15bd7390daa11254",
+  "password": "123456",
+  "newPassword": "654321"
+}
