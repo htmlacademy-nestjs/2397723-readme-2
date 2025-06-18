@@ -1,7 +1,7 @@
 import {IsArray, IsEnum, IsMongoId, IsOptional, IsString, IsUUID} from 'class-validator';
 import {ApiProperty} from '@nestjs/swagger';
 import {PostEnum} from '@project/types';
-import {POST_ERROR_MESSAGES, POST_FIELD_INFO} from '../blog-post.const';
+import {POST_ERROR_MESSAGES, POST_FIELD_INFO} from '../blog-post.constant';
 
 export class CreatePostDto {
   @ApiProperty({

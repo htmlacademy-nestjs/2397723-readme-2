@@ -1,8 +1,8 @@
 export enum ApplicationServiceURL {
   Users = 'http://localhost:3000/api/auth',
+  Blog = 'http://localhost:3010/api/posts',
+  Tags = 'http://localhost:3010/api/tags',
   Files = 'http://localhost:3020/api/files',
-  Blog = 'http://localhost:3030/api/posts',
-  Tags = 'http://localhost:3030/api/tags',
 }
 
 export const HTTP_CLIENT_MAX_REDIRECTS = 5;
