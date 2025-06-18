@@ -1,16 +1,16 @@
 import 'multer';
-import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { ConfigType } from '@nestjs/config';
-import { ensureDir } from 'fs-extra';
+import dayjs from 'dayjs';
+import { extension } from 'mime-types';
 import { join } from 'node:path';
 import { writeFile } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
-import { extension } from 'mime-types';
-import { UploaderRepository } from './uploader.repository';
+import { ensureDir } from 'fs-extra';
+import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
 import { StoredFile } from '@project/types';
+import {FileManagerConfig} from '@project/shared/config/file-manager';
+import { UploaderRepository } from './uploader.repository';
 import { UploaderEntity } from './uploader.entity';
-import dayjs from 'dayjs';
-import {FileManagerConfig} from '../../../../../shared/config/file-manager/src';
 
 @Injectable()
 export class UploaderService {

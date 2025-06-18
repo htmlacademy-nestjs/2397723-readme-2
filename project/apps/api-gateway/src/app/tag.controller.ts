@@ -1,9 +1,9 @@
 import {Body, Controller, Get, HttpException, Post, UseFilters, UseGuards, UseInterceptors} from '@nestjs/common';
 import {HttpService} from '@nestjs/axios';
+import {ApiTags} from '@nestjs/swagger';
 import {CheckAuthGuard} from './guards/check-auth.guard';
 import {UserIdInterceptor} from './interceptors/user-id.interceptor';
 import {ApplicationServiceURL} from './app.config';
-import {ApiTags} from '@nestjs/swagger';
 import {CreateTagDto} from './dto/tag/create-tag.dto';
 import {AxiosExceptionFilter} from './filters/axios-exception.filter';
 

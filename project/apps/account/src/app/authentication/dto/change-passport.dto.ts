@@ -1,6 +1,6 @@
-import { IsString } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
-import { API } from '../authentication.constant';
+import {IsString} from 'class-validator';
+import {ApiProperty} from '@nestjs/swagger';
+import {API} from '../authentication.constant';
 
 export class ChangePasswordDto {
   @ApiProperty({

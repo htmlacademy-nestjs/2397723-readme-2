@@ -1,11 +1,11 @@
+import {validate} from 'class-validator';
+import {plainToInstance} from 'class-transformer';
 import {
   BadRequestException,
   CallHandler,
   ExecutionContext,
   NestInterceptor
 } from '@nestjs/common';
-import {validate} from 'class-validator';
-import {plainToInstance} from 'class-transformer';
 import {Post, PostEnum} from '@project/types';
 import {CreateTextPostDto} from '../dto/create-text-post.dto';
 import {CreateVideoPostDto} from '../dto/create-video-post.dto';
@@ -17,15 +17,15 @@ import {CreatePostDto} from '../dto/create-post.dto';
 export class BlogPostValidateInterceptor implements NestInterceptor {
   private getDto(postType) {
     switch (postType) {
-      case PostEnum.Video:
+      case PostEnum.video:
         return CreateVideoPostDto;
-      case PostEnum.Text:
+      case PostEnum.text:
         return CreateTextPostDto;
-      case PostEnum.Quote:
+      case PostEnum.quote:
         return CreateQuotePostDto;
-      case PostEnum.Photo:
+      case PostEnum.photo:
         return CreatePhotoPostDto;
-      case PostEnum.Link:
+      case PostEnum.link:
         return CreateLinkPostDto;
       default:
         return CreatePostDto;

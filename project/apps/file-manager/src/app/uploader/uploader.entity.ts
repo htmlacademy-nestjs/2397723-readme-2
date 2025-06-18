@@ -1,4 +1,4 @@
-import { File } from '@project/types';
+import {File} from '@project/types';
 import {Entity} from '@project/core';
 
 export class UploaderEntity implements File, Entity<string> {

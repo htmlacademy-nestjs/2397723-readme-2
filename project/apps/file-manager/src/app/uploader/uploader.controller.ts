@@ -1,20 +1,21 @@
 import 'multer';
-import { Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors, UsePipes } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { UploadedFileRdo } from './rdo/uploaded-file.rdo';
-import { ApiTags } from '@nestjs/swagger';
-import { FILE_INFO, MAX_FILE_SIZE } from './uploader.constant';
-import { FileValidationPipe } from './pipes/file-validation.pipe';
-import {UploaderService} from './uploader.service';
+import {Body, Controller, Get, Param, Post, UploadedFile, UseInterceptors, UsePipes} from '@nestjs/common';
+import {FileInterceptor} from '@nestjs/platform-express';
+import {ApiTags} from '@nestjs/swagger';
 import {fillDto} from '@project/helpers';
 import {MongoIdValidationPipe} from '@project/core';
+import {UploadedFileRdo} from './rdo/uploaded-file.rdo';
+import {FILE_INFO, MAX_FILE_SIZE} from './uploader.constant';
+import {FileValidationPipe} from './pipes/file-validation.pipe';
+import {UploaderService} from './uploader.service';
 
 @ApiTags('File Uploader routes')
 @Controller('files')
 export class UploaderController {
   constructor(
     private readonly fileUploaderService: UploaderService,
-  ) { }
+  ) {
+  }
 
   @Post('/upload')
   @UseInterceptors(FileInterceptor('file'))
@@ -37,7 +38,7 @@ export class UploaderController {
     @Body()
       file: Express.Multer.File,
   ) {
-    const fileEntity = await this.fileUploaderService.saveFile({ ...file, buffer: Buffer.from(`${file.buffer}`, 'hex') });
+    const fileEntity = await this.fileUploaderService.saveFile({...file, buffer: Buffer.from(`${file.buffer}`, 'hex')});
 
     return fillDto(UploadedFileRdo, fileEntity.toObject());
   }

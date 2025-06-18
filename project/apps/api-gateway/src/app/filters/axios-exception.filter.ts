@@ -1,6 +1,6 @@
-import { AxiosError } from 'axios';
-import { Response } from 'Express';
-import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus } from '@nestjs/common';
+import {AxiosError} from 'axios';
+import {Response} from 'Express';
+import {ArgumentsHost, Catch, ExceptionFilter, HttpStatus} from '@nestjs/common';
 
 const INTERNAL_SERVER_ERROR_MESSAGE = 'Internal server error';
 
