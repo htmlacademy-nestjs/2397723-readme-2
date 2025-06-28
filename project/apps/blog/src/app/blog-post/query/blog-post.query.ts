@@ -1,7 +1,7 @@
 import {IsArray, IsEnum, IsIn, IsMongoId, IsNumber, IsOptional, IsUUID} from 'class-validator';
 import {Transform} from 'class-transformer';
 import {SortDirectionEnum, SortEnum} from '@project/types';
-import {POST} from '../blog-post.const';
+import {POST} from '../blog-post.constant';
 
 export class BlogPostQuery {
   @Transform(({value}) => +value || POST.COUNT_LIMIT)

@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
-import { MailerModule } from '@nestjs-modules/mailer';
+import {Module} from '@nestjs/common';
+import {MailerModule} from '@nestjs-modules/mailer';
 import {getMailerAsyncOptions} from '@project/helpers';
-import { MailService } from './mail.service';
+import {MailService} from './mail.service';
 
 @Module({
   imports: [
@@ -14,4 +14,5 @@ import { MailService } from './mail.service';
     MailService,
   ],
 })
-export class MailModule { }
+export class MailModule {
+}

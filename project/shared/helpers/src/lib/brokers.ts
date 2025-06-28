@@ -1,5 +1,5 @@
-import { ConfigService } from '@nestjs/config';
-import { getRabbitMQConnectionString } from './common';
+import {ConfigService} from '@nestjs/config';
+import {getRabbitMQConnectionString} from './common';
 
 export function getRabbitMQOptions(optionSpace: string) {
   return {
@@ -16,7 +16,7 @@ export function getRabbitMQOptions(optionSpace: string) {
         user: config.get<string>(`${optionSpace}.user`),
         port: config.get<string>(`${optionSpace}.port`),
       }),
-      connectionInitOptions: { wait: true },
+      connectionInitOptions: {wait: true},
       enableControllerDiscovery: true,
     }),
     inject: [ConfigService],

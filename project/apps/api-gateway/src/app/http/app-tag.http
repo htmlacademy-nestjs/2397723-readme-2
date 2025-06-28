@@ -1,0 +1,12 @@
+# Get all tags
+GET http://localhost:4000/api/tags HTTP/1.1
+
+###
+# Create a new tag
+POST http://localhost:4000/api/tags HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ODUyNGE5YjE1YmQ3MzkwZGFhMTEyNTQiLCJlbWFpbCI6InVzZXJAZW1haWwudGVzdCIsIm5hbWUiOiJVcGRhdGUgTmFtZSIsImlhdCI6MTc1MDI2NDI4OSwiZXhwIjoxNzUwMzUwNjg5fQ.dZ4mZ0OWiOO97M3XcRsLgQYgZE-h3-JJdeaLeguzZ7s
+Content-Type: application/json
+
+{
+  "titles": [ "first", "second" ]
+}

@@ -7,7 +7,7 @@ import {
   IsUUID
 } from 'class-validator';
 import {ApiProperty} from '@nestjs/swagger';
-import {POST_FIELD_INFO} from '../blog-post.const';
+import {POST_FIELD_INFO} from '../blog-post.constant';
 
 export class UpdatePostDto {
   @ApiProperty({

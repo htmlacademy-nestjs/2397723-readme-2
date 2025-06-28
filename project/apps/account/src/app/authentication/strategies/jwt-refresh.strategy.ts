@@ -1,10 +1,10 @@
-import { ExtractJwt, Strategy } from 'passport-jwt';
-import { Inject, Injectable } from '@nestjs/common';
-import { ConfigType } from '@nestjs/config';
-import { PassportStrategy } from '@nestjs/passport';
+import {ExtractJwt, Strategy} from 'passport-jwt';
+import {Inject, Injectable} from '@nestjs/common';
+import {ConfigType} from '@nestjs/config';
+import {PassportStrategy} from '@nestjs/passport';
 import {RefreshTokenPayload} from '@project/types';
 import {jwtConfig} from '@project/shared/config/account';
-import { AuthenticationService } from '../authentication.service';
+import {AuthenticationService} from '../authentication.service';
 import {TokenNotExistsException} from '../exceptions/token-not-exist.exception';
 import {RefreshTokenService} from '../../refresh-token/refresh-token.service';
 
@@ -13,7 +13,6 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh'
   constructor(
     @Inject(jwtConfig.KEY)
     private readonly jwtOptions: ConfigType<typeof jwtConfig>,
-
     private readonly authService: AuthenticationService,
     private readonly refreshTokenService: RefreshTokenService,
   ) {

@@ -26,10 +26,10 @@ export class BlogCommentService {
     return this.blogCommentRepository.save(newComment);
   }
 
-  public async deleteComment(id: string, authorId: string) {
+  public async deleteComment(id: string, userId: string) {
     const existsComment = await this.blogCommentRepository.findById(id);
-    if (existsComment?.authorId !== authorId) {
-      throw new UnauthorizedException(`Comment owner is not user with userId: ${authorId}`);
+    if (existsComment?.userId !== userId) {
+      throw new UnauthorizedException(`Comment owner is not user with userId: ${userId}`);
     }
     try {
       await this.blogCommentRepository.deleteById(id);

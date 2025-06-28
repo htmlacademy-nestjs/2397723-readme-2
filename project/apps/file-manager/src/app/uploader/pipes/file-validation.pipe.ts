@@ -1,4 +1,4 @@
-import { Injectable, PayloadTooLargeException, PipeTransform } from '@nestjs/common';
+import {Injectable, PayloadTooLargeException, PipeTransform} from '@nestjs/common';
 
 export type FileSizeOptions = {
   maxSize: number,

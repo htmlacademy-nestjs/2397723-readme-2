@@ -1,5 +1,5 @@
-import { Document, Model } from 'mongoose';
-import { NotFoundException } from '@nestjs/common';
+import {Document, Model} from 'mongoose';
+import {NotFoundException} from '@nestjs/common';
 import {Entity, EntityIdType, Repository} from '@project/core';
 
 
@@ -11,19 +11,19 @@ export abstract class BaseMongoRepository<
   constructor(
     protected readonly model: Model<DocumentType>,
     private readonly createEntity: (document: DocumentType) => EntityType,
-  ) {}
+  ) {
+  }
 
   protected createEntityFromDocument(document: DocumentType): EntityType | null {
     if (!document) {
       return null;
     }
 
-    return this.createEntity(document.toObject({ versionKey: false }));
+    return this.createEntity(document.toObject({versionKey: false}));
   }
 
   public async findById(id: EntityType['id']): Promise<EntityType | null> {
     const document = await this.model.findById(id).exec();
-    //TODO странное непринятие типа документа
     // @ts-ignore
     return this.createEntityFromDocument(document);
   }
@@ -34,7 +34,6 @@ export abstract class BaseMongoRepository<
         $in: ids,
       }
     })
-    //TODO Тоже непонятно
     // @ts-ignore
     return documents.map(item => this.createEntityFromDocument(item));
   }
@@ -51,11 +50,11 @@ export abstract class BaseMongoRepository<
     const updatedDocument = await this.model.findByIdAndUpdate(
       id,
       entity.toObject(),
-      { new: true, runValidators: true }
+      {new: true, runValidators: true}
     )
       .exec();
 
-    if (! updatedDocument) {
+    if (!updatedDocument) {
       throw new NotFoundException(`Entity with id ${id} not found`);
     }
 
@@ -64,7 +63,7 @@ export abstract class BaseMongoRepository<
 
   public async deleteById(id: EntityType['id']): Promise<void> {
     const deletedDocument = await this.model.findByIdAndDelete(id).exec();
-    if (! deletedDocument) {
+    if (!deletedDocument) {
       throw new NotFoundException(`Entity with id ${id} not found.`);
     }
   }

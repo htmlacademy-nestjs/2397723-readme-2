@@ -17,7 +17,7 @@ export class BlogCommentRepository extends BasePostgresRepository<BlogCommentEnt
     const record = await this.client.comment.create({
       data: {
         text: entity.text,
-        authorId: entity.authorId,
+        userId: entity.userId,
         postId: entity.postId,
       },
     });

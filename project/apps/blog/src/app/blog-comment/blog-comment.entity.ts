@@ -5,7 +5,7 @@ import {CreateCommentDto} from './dto/create-comment.dto';
 export class BlogCommentEntity implements Comment, Entity<string, Comment> {
   public id?: string;
   public text: string;
-  public authorId: string;
+  public userId: string;
   public createdAt: Date;
   public updatedAt: Date;
   public postId: string
@@ -13,7 +13,7 @@ export class BlogCommentEntity implements Comment, Entity<string, Comment> {
   public populate(data: Comment): BlogCommentEntity {
     this.id = data.id ?? undefined;
     this.text = data.text;
-    this.authorId = data.authorId;
+    this.userId = data.userId;
     this.createdAt = data.createdAt;
     this.updatedAt = data.updatedAt;
     this.postId = data.postId
@@ -25,7 +25,7 @@ export class BlogCommentEntity implements Comment, Entity<string, Comment> {
     return {
       id: this.id,
       text: this.text,
-      authorId: this.authorId,
+      userId: this.userId,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
       postId: this.postId,
