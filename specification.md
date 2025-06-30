@@ -8,7 +8,13 @@
 cd project
 ```
 
-### 2. Создание .env файлов
+### 2. Установка пакетов
+Установите все зависимости
+```bash
+npm install
+```
+
+### 3. Создание .env файлов
 Далее нужно создать .env файлы для каждого сервиса и prisma client по образцу файлов .env-example.
 
 Директории для создания:
@@ -22,24 +28,29 @@ cd project
 
 ### 3. Создание и запуск Docker контейнеров
 
+#### Запуск всех контейнеров разом
+```bash
+npm run start-docker:all
+```
+
 #### Запуск контейнера для сервиса Account
 ```bash
-docker compose --file ./apps/account/docker-compose.dev.yml --project-name "readme-account" --env-file ./apps/account/account.env up -d
+npm run start-docker:account
 ```
 
 #### Запуск контейнера для сервиса Blog
 ```bash
-docker compose --file ./apps/blog/docker-compose.dev.yml --project-name "readme-blog" --env-file ./apps/blog/blog.env up -d
+npm run start-docker:blog
 ```
 
 #### Запуск контейнера для сервиса File Manager
 ```bash
-docker compose --file ./apps/file-manager/docker-compose.dev.yml --project-name "readme-file-manager" --env-file ./apps/file-manager/file-manager.env up -d
+npm run start-docker:file-manager
 ```
 
 #### Запуск контейнера для сервиса Notification
 ```bash
-docker compose --file ./apps/notification/docker-compose.dev.yml --project-name "readme-notification" --env-file ./apps/notification/notification.env up -d
+npm run start-docker:notification
 ```
 
 ### 3. Подготовка Prisma клиента
@@ -70,29 +81,33 @@ npx run db:lint
 ```
 
 ### 4. Запуск сервисов
-Чтобы запустить сервисы, нужно выполнить команды:
+
+#### Запуск всех сервисов разом (каждый запускается в своем терминале)
+```bash
+npm run start-service:all
+```
 
 #### Запуск сервиса api-gateway
 ```bash
-nx run api-gateway:serve
+npm run start-service:api-gateway
 ```
 
 #### Запуск сервиса account
 ```bash
-nx run account:serve
-```
-
-#### Запуск сервиса file-manager
-```bash
-nx run file-manager:serve
+npm run start-service:account
 ```
 
 #### Запуск сервиса blog
 ```bash
-nx run blog:serve
+npm run start-service:blog
+```
+
+#### Запуск сервиса file-manager
+```bash
+npm run start-service:file-manager
 ```
 
 #### Запуск сервиса notification
 ```bash
-nx run notification:serve
+npm run start-service:notification
 ```
