@@ -4,6 +4,8 @@ import {NestFactory} from '@nestjs/core';
 import {AppModule} from './app/app.module';
 import {RequestIdInterceptor} from './app/interceptors/request-id.interceptor';
 
+const GLOBAL_PREFIX = 'api';
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
@@ -22,9 +24,8 @@ async function bootstrap() {
       'JWT-auth',
     )
     .build();
-  const globalPrefix = 'api';
 
-  app.setGlobalPrefix(globalPrefix);
+  app.setGlobalPrefix(GLOBAL_PREFIX);
   app.useGlobalInterceptors(new RequestIdInterceptor());
 
   const document = SwaggerModule.createDocument(app, config);
@@ -35,7 +36,7 @@ async function bootstrap() {
   await app.listen(port);
 
   Logger.log(
-    `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`
+    `🚀 Application is running on: http://localhost:${port}/${GLOBAL_PREFIX}`
   );
 }
 
