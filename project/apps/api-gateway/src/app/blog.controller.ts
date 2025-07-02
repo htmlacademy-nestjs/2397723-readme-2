@@ -51,8 +51,6 @@ export class BlogController {
 
       const res = await this.httpService.axiosRef.post(`${ApplicationServiceURL.Users}/info`, {ids: Array.from(users)});
 
-      const list = res.data;
-
       data.entities.forEach(item => {
         item.user = res.data[item.userId];
         item.likes = item.likes.length;
